@@ -1,11 +1,12 @@
 <?php
-require_once 'config/constants.php';
-require_once 'config/session.php';
+define('ROOT_DIR', __DIR__);
+require_once ROOT_DIR . '/config/constants.php';
+require_once ROOT_DIR . '/config/session.php';
 
 $page_title = 'Trang chủ';
-$conn = require 'config/database.php';
-require_once 'models/Product.php';
-require_once 'models/Category.php';
+$conn = require ROOT_DIR . '/config/database.php';
+require_once ROOT_DIR . '/models/Product.php';
+require_once ROOT_DIR . '/models/Category.php';
 
 $product = new Product($conn);
 $category = new Category($conn);
@@ -25,7 +26,7 @@ $categories = $category->getAllCategories();
                     <i class="fas fa-flower text-danger"></i> Hoa Tươi Chất Lượng Cao
                 </h1>
                 <p class="lead text-muted mb-4">Gửi tặng yêu thương với những bó hoa tươi đẹp nhất</p>
-                <a href="<?php echo APP_URL; ?>/products/index.php" class="btn btn-primary btn-lg">
+                <a href="/web_banhoa/products.php" class="btn btn-primary btn-lg">
                     Mua sắm ngay
                 </a>
             </div>
@@ -38,7 +39,7 @@ $categories = $category->getAllCategories();
         <div class="row g-3">
             <?php foreach ($categories as $cat): ?>
                 <div class="col-md-3">
-                    <a href="<?php echo APP_URL; ?>/products/index.php?category=<?php echo $cat['category_id']; ?>" 
+                    <a href="/web_banhoa/products.php?category=<?php echo $cat['category_id']; ?>" 
                        class="card text-decoration-none text-dark h-100 shadow-sm">
                         <div class="card-body text-center">
                             <h5 class="card-title"><?php echo $cat['name']; ?></h5>
@@ -57,7 +58,7 @@ $categories = $category->getAllCategories();
             <?php foreach ($featured_products as $prod): ?>
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm">
-                        <img src="<?php echo $prod['image_url'] ?? APP_URL . '/assets/images/placeholder.jpg'; ?>" 
+                        <img src="<?php echo $prod['image_url'] ?? '/web_banhoa/assets/images/placeholder.jpg'; ?>" 
                              class="card-img-top" alt="<?php echo $prod['name']; ?>" style="height: 250px; object-fit: cover;">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $prod['name']; ?></h5>
@@ -68,7 +69,7 @@ $categories = $category->getAllCategories();
                             </div>
                         </div>
                         <div class="card-footer bg-white">
-                            <a href="<?php echo APP_URL; ?>/products/detail.php?id=<?php echo $prod['product_id']; ?>" 
+                            <a href="/web_banhoa/product-detail.php?id=<?php echo $prod['product_id']; ?>" 
                                class="btn btn-primary btn-sm w-100">
                                 <i class="fas fa-eye"></i> Xem chi tiết
                             </a>

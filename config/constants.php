@@ -1,7 +1,7 @@
 <?php
 // Application Constants
+define('APP_URL', '/web_banhoa');
 define('APP_NAME', 'Web Bán Hoa');
-define('APP_URL', 'http://localhost/web_banhoa');
 define('UPLOAD_DIR', __DIR__ . '/../uploads/');
 define('UPLOAD_URL', APP_URL . '/uploads/');
 

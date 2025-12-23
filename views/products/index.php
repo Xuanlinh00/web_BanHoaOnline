@@ -1,11 +1,11 @@
 <?php
-require_once '../../config/constants.php';
-require_once '../../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
 
 $page_title = 'Sản phẩm';
-$conn = require '../../config/database.php';
-require_once '../../models/Product.php';
-require_once '../../models/Category.php';
+$conn = require 'config/database.php';
+require_once 'models/Product.php';
+require_once 'models/Category.php';
 
 $product = new Product($conn);
 $category = new Category($conn);
@@ -27,7 +27,7 @@ $categories = $category->getAllCategories();
 $total_products = $product->getTotalProducts();
 $total_pages = ceil($total_products / ITEMS_PER_PAGE);
 ?>
-<?php include '../../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row">
@@ -37,11 +37,11 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
                 <div class="card-body">
                     <h5 class="card-title">Danh mục</h5>
                     <div class="list-group">
-                        <a href="<?php echo APP_URL; ?>/products/index.php" class="list-group-item list-group-item-action <?php echo !$category_id ? 'active' : ''; ?>">
+                        <a href="/web_banhoa/products.php" class="list-group-item list-group-item-action <?php echo !$category_id ? 'active' : ''; ?>">
                             Tất cả
                         </a>
                         <?php foreach ($categories as $cat): ?>
-                            <a href="<?php echo APP_URL; ?>/products/index.php?category=<?php echo $cat['category_id']; ?>" 
+                            <a href="/web_banhoa/products.php?category=<?php echo $cat['category_id']; ?>" 
                                class="list-group-item list-group-item-action <?php echo $category_id == $cat['category_id'] ? 'active' : ''; ?>">
                                 <?php echo $cat['name']; ?>
                             </a>
@@ -87,7 +87,7 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
                     <?php foreach ($products as $prod): ?>
                         <div class="col-md-4">
                             <div class="card h-100 shadow-sm">
-                                <img src="<?php echo $prod['image_url'] ?? APP_URL . '/assets/images/placeholder.jpg'; ?>" 
+                                <img src="<?php echo $prod['image_url'] ?? '/web_banhoa/assets/images/placeholder.jpg'; ?>" 
                                      class="card-img-top" alt="<?php echo $prod['name']; ?>" style="height: 250px; object-fit: cover;">
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo $prod['name']; ?></h5>
@@ -98,7 +98,7 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
                                     </div>
                                 </div>
                                 <div class="card-footer bg-white">
-                                    <a href="<?php echo APP_URL; ?>/products/detail.php?id=<?php echo $prod['product_id']; ?>" 
+                                    <a href="/web_banhoa/product-detail.php?id=<?php echo $prod['product_id']; ?>" 
                                        class="btn btn-primary btn-sm w-100">
                                         <i class="fas fa-eye"></i> Xem chi tiết
                                     </a>
@@ -114,7 +114,7 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
                         <ul class="pagination justify-content-center">
                             <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                                 <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                    <a class="page-link" href="<?php echo APP_URL; ?>/products/index.php?page=<?php echo $i; ?><?php echo $category_id ? '&category=' . $category_id : ''; ?><?php echo $search ? '&search=' . urlencode($search) : ''; ?>">
+                                    <a class="page-link" href="/web_banhoa/products.php?page=<?php echo $i; ?><?php echo $category_id ? '&category=' . $category_id : ''; ?><?php echo $search ? '&search=' . urlencode($search) : ''; ?>">
                                         <?php echo $i; ?>
                                     </a>
                                 </li>
@@ -127,4 +127,4 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
     </div>
 </div>
 
-<?php include '../../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>

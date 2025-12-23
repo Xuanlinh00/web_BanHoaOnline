@@ -26,13 +26,13 @@ foreach ($orders as &$order) {
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href="<?php echo APP_URL; ?>/user/profile.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/user/profile.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-user"></i> Hồ sơ
                 </a>
-                <a href="<?php echo APP_URL; ?>/user/orders.php" class="list-group-item list-group-item-action active">
+                <a href="/web_banhoa/user/orders.php" class="list-group-item list-group-item-action active">
                     <i class="fas fa-shopping-bag"></i> Đơn hàng
                 </a>
-                <a href="<?php echo APP_URL; ?>/user/addresses.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/user/addresses.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-map-marker-alt"></i> Địa chỉ
                 </a>
             </div>
@@ -43,7 +43,7 @@ foreach ($orders as &$order) {
 
             <?php if (empty($orders)): ?>
                 <div class="alert alert-info">
-                    Bạn chưa có đơn hàng nào. <a href="<?php echo APP_URL; ?>/products/index.php">Mua sắm ngay</a>
+                    Bạn chưa có đơn hàng nào. <a href="/web_banhoa/products/index.php">Mua sắm ngay</a>
                 </div>
             <?php else: ?>
                 <?php foreach ($orders as $order): ?>
@@ -95,7 +95,7 @@ foreach ($orders as &$order) {
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="<?php echo APP_URL; ?>/user/order-detail.php?id=<?php echo $order['order_id']; ?>" class="btn btn-sm btn-primary">
+                            <a href="/web_banhoa/user/order-detail.php?id=<?php echo $order['order_id']; ?>" class="btn btn-sm btn-primary">
                                 Xem chi tiết
                             </a>
                         </div>

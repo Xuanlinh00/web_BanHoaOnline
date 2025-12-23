@@ -1,14 +1,14 @@
 <?php
-require_once '../../config/constants.php';
-require_once '../../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
 
 $page_title = 'Chi tiết sản phẩm';
-$conn = require '../../config/database.php';
-require_once '../../models/Product.php';
-require_once '../../models/Review.php';
+$conn = require 'config/database.php';
+require_once 'models/Product.php';
+require_once 'models/Review.php';
 
 if (!isset($_GET['id'])) {
-    header('Location: ' . APP_URL . '/products/index.php');
+    header('Location: /web_banhoa/products.php');
     exit;
 }
 
@@ -18,7 +18,7 @@ $review_model = new Review($conn);
 $product = $product_model->getProductById($_GET['id']);
 
 if (!$product) {
-    header('Location: ' . APP_URL . '/products/index.php');
+    header('Location: /web_banhoa/products.php');
     exit;
 }
 
@@ -32,11 +32,11 @@ $reviews = $review_model->getProductReviews($product['product_id']);
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     if (!isLoggedIn()) {
-        header('Location: ' . APP_URL . '/auth/login.php');
+        header('Location: /web_banhoa/login.php');
         exit;
     }
 
-    require_once '../../models/Cart.php';
+    require_once 'models/Cart.php';
     $cart = new Cart($conn);
     $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
     
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     }
 }
 ?>
-<?php include '../../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row">
@@ -151,4 +151,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     </div>
 </div>
 
-<?php include '../../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>

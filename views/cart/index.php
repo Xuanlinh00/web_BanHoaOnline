@@ -1,11 +1,13 @@
 <?php
-require_once '../../config/constants.php';
-require_once '../../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
+require_once 'config/database.php';
+require_once 'models/Cart.php';
+
 requireLogin();
 
 $page_title = 'Giỏ hàng';
-$conn = require '../../config/database.php';
-require_once '../../models/Cart.php';
+$conn = require 'config/database.php';
 
 $cart = new Cart($conn);
 $user_id = getCurrentUserId();
@@ -14,27 +16,27 @@ $items = $cart->getCartItems($user_id);
 // Handle update quantity
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_quantity'])) {
     $cart->updateItemQuantity($_POST['cart_item_id'], $_POST['quantity']);
-    header('Location: ' . APP_URL . '/cart/index.php');
+    header('Location: /web_banhoa/cart.php');
     exit;
 }
 
 // Handle remove item
 if (isset($_GET['remove'])) {
     $cart->removeItem($_GET['remove']);
-    header('Location: ' . APP_URL . '/cart/index.php');
+    header('Location: /web_banhoa/cart.php');
     exit;
 }
 
 $total = $cart->getCartTotal($user_id);
 ?>
-<?php include '../../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container">
     <h2 class="mb-4">Giỏ hàng</h2>
 
     <?php if (empty($items)): ?>
         <div class="alert alert-info">
-            Giỏ hàng của bạn trống. <a href="<?php echo APP_URL; ?>/products/index.php">Tiếp tục mua sắm</a>
+            Giỏ hàng của bạn trống. <a href="/web_banhoa/products.php">Tiếp tục mua sắm</a>
         </div>
     <?php else: ?>
         <div class="row">
@@ -57,7 +59,7 @@ $total = $cart->getCartTotal($user_id);
                                         <div class="d-flex align-items-center">
                                             <img src="<?php echo $item['image_url']; ?>" alt="<?php echo $item['name']; ?>" 
                                                  style="width: 60px; height: 60px; object-fit: cover; margin-right: 10px;">
-                                            <a href="<?php echo APP_URL; ?>/products/detail.php?id=<?php echo $item['product_id']; ?>">
+                                            <a href="/web_banhoa/product-detail.php?id=<?php echo $item['product_id']; ?>">
                                                 <?php echo $item['name']; ?>
                                             </a>
                                         </div>
@@ -75,7 +77,7 @@ $total = $cart->getCartTotal($user_id);
                                     </td>
                                     <td><?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?>đ</td>
                                     <td>
-                                        <a href="<?php echo APP_URL; ?>/cart/index.php?remove=<?php echo $item['cart_item_id']; ?>" 
+                                        <a href="/web_banhoa/cart.php?remove=<?php echo $item['cart_item_id']; ?>" 
                                            class="btn btn-sm btn-danger" onclick="return confirm('Xóa sản phẩm này?')">
                                             <i class="fas fa-trash"></i>
                                         </a>
@@ -105,7 +107,7 @@ $total = $cart->getCartTotal($user_id);
                             <strong>Tổng cộng:</strong>
                             <strong class="text-danger h5"><?php echo number_format($total, 0, ',', '.'); ?>đ</strong>
                         </div>
-                        <a href="<?php echo APP_URL; ?>/checkout/index.php" class="btn btn-primary w-100">
+                        <a href="/web_banhoa/checkout.php" class="btn btn-primary w-100">
                             Tiến hành thanh toán
                         </a>
                     </div>
@@ -115,4 +117,4 @@ $total = $cart->getCartTotal($user_id);
     <?php endif; ?>
 </div>
 
-<?php include '../../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>

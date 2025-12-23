@@ -1,29 +1,28 @@
 <?php
-require_once '../../config/constants.php';
-require_once '../../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
+require_once 'config/database.php';
+require_once 'models/User.php';
 
 $page_title = 'Đăng nhập';
 $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once '../../config/database.php';
-    require_once '../../models/User.php';
-
-    $conn = require '../../config/database.php';
+    $conn = require 'config/database.php';
     $user = new User($conn);
 
     $result = $user->login($_POST['username'], $_POST['password']);
     
     if ($result['success']) {
-        header('Location: ' . APP_URL . '/index.php');
+        header('Location: /web_banhoa/index.php');
         exit;
     } else {
         $error = $result['message'];
     }
 }
 ?>
-<?php include '../../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -54,11 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </form>
 
                     <hr>
-                    <p class="text-center">Chưa có tài khoản? <a href="<?php echo APP_URL; ?>/auth/register.php">Đăng ký ngay</a></p>
+                    <p class="text-center">Chưa có tài khoản? <a href="/web_banhoa/auth/register.php">Đăng ký ngay</a></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<?php include '../../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>
