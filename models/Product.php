@@ -14,7 +14,6 @@ class Product {
         $query = "SELECT p.*, c.name as category_name 
                   FROM " . $this->table . " p
                   LEFT JOIN categories c ON p.category_id = c.category_id
-                  WHERE p.status = 'available'
                   ORDER BY p.created_at DESC
                   LIMIT ? OFFSET ?";
         

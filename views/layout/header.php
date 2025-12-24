@@ -34,7 +34,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                 <?php if (isAdmin()): ?>
-                                    <li><a class="dropdown-item" href="/web_banhoa/admin/dashboard.php">Quản trị</a></li>
+                                    <li><a class="dropdown-item" href="/web_banhoa/admin-dashboard.php">Quản trị</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                 <?php endif; ?>
                                 <li><a class="dropdown-item" href="/web_banhoa/profile.php">Hồ sơ</a></li>

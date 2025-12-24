@@ -1,10 +1,10 @@
 <?php
-require_once '../config/constants.php';
-require_once '../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
 requireAdmin();
 
 $page_title = 'Bảng điều khiển';
-$conn = require '../config/database.php';
+$conn = require 'config/database.php';
 
 // Get statistics
 $stats = [];
@@ -34,7 +34,7 @@ $recent_orders = $result->fetch_all(MYSQLI_ASSOC);
 $result = $conn->query("SELECT COUNT(*) as total FROM reviews WHERE status = 'pending'");
 $pending_reviews = $result->fetch_assoc()['total'];
 ?>
-<?php include '../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container-fluid">
     <div class="row mb-4">
@@ -128,7 +128,7 @@ $pending_reviews = $result->fetch_assoc()['total'];
                             </tbody>
                         </table>
                     </div>
-                    <a href="<?php echo APP_URL; ?>/admin/orders.php" class="btn btn-sm btn-primary">Xem tất cả</a>
+                    <a href="/web_banhoa/admin-orders.php" class="btn btn-sm btn-primary">Xem tất cả</a>
                 </div>
             </div>
         </div>
@@ -141,22 +141,22 @@ $pending_reviews = $result->fetch_assoc()['total'];
                 </div>
                 <div class="card-body">
                     <div class="list-group">
-                        <a href="<?php echo APP_URL; ?>/admin/products.php" class="list-group-item list-group-item-action">
+                        <a href="/web_banhoa/admin-products.php" class="list-group-item list-group-item-action">
                             <i class="fas fa-box"></i> Sản phẩm
                         </a>
-                        <a href="<?php echo APP_URL; ?>/admin/orders.php" class="list-group-item list-group-item-action">
+                        <a href="/web_banhoa/admin-orders.php" class="list-group-item list-group-item-action">
                             <i class="fas fa-shopping-bag"></i> Đơn hàng
                         </a>
-                        <a href="<?php echo APP_URL; ?>/admin/reviews.php" class="list-group-item list-group-item-action">
+                        <a href="/web_banhoa/admin-reviews.php" class="list-group-item list-group-item-action">
                             <i class="fas fa-star"></i> Đánh giá
                             <?php if ($pending_reviews > 0): ?>
                                 <span class="badge bg-danger float-end"><?php echo $pending_reviews; ?></span>
                             <?php endif; ?>
                         </a>
-                        <a href="<?php echo APP_URL; ?>/admin/users.php" class="list-group-item list-group-item-action">
+                        <a href="/web_banhoa/admin-users.php" class="list-group-item list-group-item-action">
                             <i class="fas fa-users"></i> Khách hàng
                         </a>
-                        <a href="<?php echo APP_URL; ?>/admin/categories.php" class="list-group-item list-group-item-action">
+                        <a href="/web_banhoa/admin-categories.php" class="list-group-item list-group-item-action">
                             <i class="fas fa-list"></i> Danh mục
                         </a>
                     </div>
@@ -166,4 +166,4 @@ $pending_reviews = $result->fetch_assoc()['total'];
     </div>
 </div>
 
-<?php include '../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>
