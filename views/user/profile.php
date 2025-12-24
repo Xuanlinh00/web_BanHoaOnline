@@ -1,11 +1,11 @@
 <?php
-require_once '../../config/constants.php';
-require_once '../../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
 requireLogin();
 
 $page_title = 'Hồ sơ cá nhân';
-$conn = require '../../config/database.php';
-require_once '../../models/User.php';
+$conn = require 'config/database.php';
+require_once 'models/User.php';
 
 $user_model = new User($conn);
 $user = $user_model->getUserById(getCurrentUserId());
@@ -29,19 +29,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<?php include '../../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href="/web_banhoa/user/profile.php" class="list-group-item list-group-item-action active">
+                <a href="/web_banhoa/profile.php" class="list-group-item list-group-item-action active">
                     <i class="fas fa-user"></i> Hồ sơ
                 </a>
-                <a href="/web_banhoa/user/orders.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/orders.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-shopping-bag"></i> Đơn hàng
                 </a>
-                <a href="/web_banhoa/user/addresses.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/addresses.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-map-marker-alt"></i> Địa chỉ
                 </a>
             </div>
@@ -96,4 +96,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<?php include '../../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>

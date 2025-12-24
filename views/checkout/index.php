@@ -1,13 +1,13 @@
 <?php
-require_once '../../config/constants.php';
-require_once '../../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
 requireLogin();
 
 $page_title = 'Thanh toán';
-$conn = require '../../config/database.php';
-require_once '../../models/Cart.php';
-require_once '../../models/Address.php';
-require_once '../../models/Order.php';
+$conn = require 'config/database.php';
+require_once 'models/Cart.php';
+require_once 'models/Address.php';
+require_once 'models/Order.php';
 
 $cart_model = new Cart($conn);
 $address_model = new Address($conn);
@@ -84,7 +84,7 @@ $time_slots = [
 $min_date = date('Y-m-d', strtotime('+1 day'));
 $max_date = date('Y-m-d', strtotime('+30 days'));
 ?>
-<?php include '../../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container">
     <h2 class="mb-4">Thanh toán</h2>
@@ -264,4 +264,4 @@ function fillAddress(value) {
 }
 </script>
 
-<?php include '../../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>

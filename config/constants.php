@@ -1,32 +1,71 @@
 <?php
-// Application Constants
-define('APP_URL', '/web_banhoa');
-define('APP_NAME', 'Web Bán Hoa');
-define('UPLOAD_DIR', __DIR__ . '/../uploads/');
-define('UPLOAD_URL', APP_URL . '/uploads/');
+/// Application Constants
+if (!defined('APP_URL')) {
+    define('APP_URL', '/web_banhoa');
+}
+if (!defined('APP_NAME')) {
+    define('APP_NAME', 'Web Bán Hoa');
+}
+if (!defined('UPLOAD_DIR')) {
+    define('UPLOAD_DIR', __DIR__ . '/../uploads/');
+}
+if (!defined('UPLOAD_URL')) {
+    define('UPLOAD_URL', APP_URL . '/uploads/');
+}
 
 // Roles
-define('ROLE_ADMIN', 'admin');
-define('ROLE_CUSTOMER', 'customer');
+if (!defined('ROLE_ADMIN')) {
+    define('ROLE_ADMIN', 'admin');
+}
+if (!defined('ROLE_CUSTOMER')) {
+    define('ROLE_CUSTOMER', 'customer');
+}
 
 // Order Status
-define('ORDER_PENDING', 'pending');
-define('ORDER_CONFIRMED', 'confirmed');
-define('ORDER_SHIPPING', 'shipping');
-define('ORDER_COMPLETED', 'completed');
-define('ORDER_CANCELLED', 'cancelled');
-define('ORDER_RETURNED', 'returned');
+if (!defined('ORDER_PENDING')) {
+    define('ORDER_PENDING', 'pending');
+}
+if (!defined('ORDER_CONFIRMED')) {
+    define('ORDER_CONFIRMED', 'confirmed');
+}
+if (!defined('ORDER_SHIPPING')) {
+    define('ORDER_SHIPPING', 'shipping');
+}
+if (!defined('ORDER_COMPLETED')) {
+    define('ORDER_COMPLETED', 'completed');
+}
+if (!defined('ORDER_CANCELLED')) {
+    define('ORDER_CANCELLED', 'cancelled');
+}
+if (!defined('ORDER_RETURNED')) {
+    define('ORDER_RETURNED', 'returned');
+}
 
 // Payment Status
-define('PAYMENT_UNPAID', 'unpaid');
-define('PAYMENT_PAID', 'paid');
-define('PAYMENT_REFUNDED', 'refunded');
+if (!defined('PAYMENT_UNPAID')) {
+    define('PAYMENT_UNPAID', 'unpaid');
+}
+if (!defined('PAYMENT_PAID')) {
+    define('PAYMENT_PAID', 'paid');
+}
+if (!defined('PAYMENT_REFUNDED')) {
+    define('PAYMENT_REFUNDED', 'refunded');
+}
 
 // Review Status
-define('REVIEW_PENDING', 'pending');
-define('REVIEW_APPROVED', 'approved');
-define('REVIEW_REJECTED', 'rejected');
+if (!defined('REVIEW_PENDING')) {
+    define('REVIEW_PENDING', 'pending');
+}
+if (!defined('REVIEW_APPROVED')) {
+    define('REVIEW_APPROVED', 'approved');
+}
+if (!defined('REVIEW_REJECTED')) {
+    define('REVIEW_REJECTED', 'rejected');
+}
 
 // Pagination
-define('ITEMS_PER_PAGE', 12);
+if (!defined('ITEMS_PER_PAGE')) {
+    define('ITEMS_PER_PAGE', 12);
+}
+
 ?>

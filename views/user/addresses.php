@@ -1,11 +1,11 @@
 <?php
-require_once '../../config/constants.php';
-require_once '../../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
 requireLogin();
 
 $page_title = 'Sổ địa chỉ';
-$conn = require '../../config/database.php';
-require_once '../../models/Address.php';
+$conn = require 'config/database.php';
+require_once 'models/Address.php';
 
 $address_model = new Address($conn);
 $user_id = getCurrentUserId();
@@ -60,19 +60,19 @@ if (isset($_GET['edit'])) {
     $edit_address = $address_model->getAddressById($_GET['edit'], $user_id);
 }
 ?>
-<?php include '../../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href="<?php echo APP_URL; ?>/user/profile.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/profile.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-user"></i> Hồ sơ
                 </a>
-                <a href="<?php echo APP_URL; ?>/user/orders.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/orders.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-shopping-bag"></i> Đơn hàng
                 </a>
-                <a href="<?php echo APP_URL; ?>/user/addresses.php" class="list-group-item list-group-item-action active">
+                <a href="/web_banhoa/addresses.php" class="list-group-item list-group-item-action active">
                     <i class="fas fa-map-marker-alt"></i> Địa chỉ
                 </a>
             </div>
@@ -203,4 +203,4 @@ if (isset($_GET['edit'])) {
     </div>
 </div>
 
-<?php include '../../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>

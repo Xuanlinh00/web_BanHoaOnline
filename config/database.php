@@ -1,9 +1,22 @@
 <?php
 // Database Configuration
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'web_banhoa');
+// Database Configuration
+if (!defined('DB_HOST')) {
+    define('DB_HOST', 'localhost');
+}
+
+if (!defined('DB_USER')) {
+    define('DB_USER', 'root');
+}
+
+if (!defined('DB_PASS')) {
+    define('DB_PASS', '');
+}
+
+if (!defined('DB_NAME')) {
+    define('DB_NAME', 'web_banhoa');
+}
+
 
 // Create connection
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
