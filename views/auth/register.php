@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </form>
 
                     <hr>
-                    <p class="text-center">Đã có tài khoản? <a href="/web_banhoa/auth/login.php">Đăng nhập</a></p>
+                    <p class="text-center">Đã có tài khoản? <a href="/web_banhoa/views/auth/login.php">Đăng nhập</a></p>
                 </div>
             </div>
         </div>

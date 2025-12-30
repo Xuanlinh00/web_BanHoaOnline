@@ -211,7 +211,7 @@ $page_title = 'Câu hỏi thường gặp';
                 </div>
                 <div class="card-body">
                     <p class="text-muted">Nếu bạn không tìm thấy câu trả lời cho câu hỏi của mình, vui lòng liên hệ với chúng tôi.</p>
-                    <a href="/web_banhoa/contact.php" class="btn btn-primary w-100">
+                    <a href="/web_banhoa/views/contact.php" class="btn btn-primary w-100">
                         <i class="fas fa-envelope"></i> Liên hệ ngay
                     </a>
                 </div>

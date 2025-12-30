@@ -8,7 +8,7 @@ $conn = require 'config/database.php';
 require_once 'models/Order.php';
 
 if (!isset($_GET['id'])) {
-    header('Location: /web_banhoa/orders.php');
+    header('Location: /web_banhoa/views/user/orders.php');
     exit;
 }
 
@@ -21,7 +21,7 @@ $order = $order_model->getOrderById($order_id);
 
 // Check if order belongs to current user
 if (!$order || $order['user_id'] != $user_id) {
-    header('Location: /web_banhoa/orders.php');
+    header('Location: /web_banhoa/views/user/orders.php');
     exit;
 }
 
@@ -59,13 +59,13 @@ $status_color = [
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href="/web_banhoa/profile.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/views/user/profile.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-user"></i> Hồ sơ
                 </a>
-                <a href="/web_banhoa/orders.php" class="list-group-item list-group-item-action active">
+                <a href="/web_banhoa/views/user/orders.php" class="list-group-item list-group-item-action active">
                     <i class="fas fa-shopping-bag"></i> Đơn hàng
                 </a>
-                <a href="/web_banhoa/addresses.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/views/user/addresses.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-map-marker-alt"></i> Địa chỉ
                 </a>
             </div>
@@ -74,7 +74,7 @@ $status_color = [
         <div class="col-md-9">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3>Chi tiết đơn hàng</h3>
-                <a href="/web_banhoa/orders.php" class="btn btn-outline-secondary">
+                <a href="/web_banhoa/views/user/orders.php" class="btn btn-outline-secondary">
                     <i class="fas fa-arrow-left"></i> Quay lại
                 </a>
             </div>

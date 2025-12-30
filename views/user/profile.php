@@ -35,13 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href="/web_banhoa/profile.php" class="list-group-item list-group-item-action active">
+                <a href="/web_banhoa/views/user/profile.php" class="list-group-item list-group-item-action active">
                     <i class="fas fa-user"></i> Hồ sơ
                 </a>
-                <a href="/web_banhoa/orders.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/views/user/orders.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-shopping-bag"></i> Đơn hàng
                 </a>
-                <a href="/web_banhoa/addresses.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/views/user/addresses.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-map-marker-alt"></i> Địa chỉ
                 </a>
             </div>

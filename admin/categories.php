@@ -132,7 +132,7 @@ if (isset($_GET['delete'])) {
                                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $cat['category_id']; ?>">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <a href="/web_banhoa/admin-categories.php?delete=<?php echo $cat['category_id']; ?>" 
+                                        <a href="/web_banhoa/admin/categories.php?delete=<?php echo $cat['category_id']; ?>" 
                                            class="btn btn-sm btn-danger" onclick="return confirm('Xóa danh mục này?')">
                                             <i class="fas fa-trash"></i>
                                         </a>

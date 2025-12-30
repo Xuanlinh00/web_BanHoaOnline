@@ -66,13 +66,13 @@ if (isset($_GET['edit'])) {
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href="/web_banhoa/profile.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/views/user/profile.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-user"></i> Hồ sơ
                 </a>
-                <a href="/web_banhoa/orders.php" class="list-group-item list-group-item-action">
+                <a href="/web_banhoa/views/user/orders.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-shopping-bag"></i> Đơn hàng
                 </a>
-                <a href="/web_banhoa/addresses.php" class="list-group-item list-group-item-action active">
+                <a href="/web_banhoa/views/user/addresses.php" class="list-group-item list-group-item-action active">
                     <i class="fas fa-map-marker-alt"></i> Địa chỉ
                 </a>
             </div>
@@ -155,7 +155,7 @@ if (isset($_GET['edit'])) {
                                     <?php echo $edit_address ? 'Cập nhật' : 'Thêm'; ?>
                                 </button>
                                 <?php if ($edit_address): ?>
-                                    <a href="<?php echo APP_URL; ?>/user/addresses.php" class="btn btn-outline-secondary w-100 mt-2">
+                                    <a href="<?php echo APP_URL; ?>/views/user/addresses.php" class="btn btn-outline-secondary w-100 mt-2">
                                         Hủy
                                     </a>
                                 <?php endif; ?>
@@ -183,11 +183,11 @@ if (isset($_GET['edit'])) {
                                             <?php endif; ?>
                                         </div>
                                         <div>
-                                            <a href="<?php echo APP_URL; ?>/user/addresses.php?edit=<?php echo $addr['address_id']; ?>" 
+                                            <a href="<?php echo APP_URL; ?>/views/user/addresses.php?edit=<?php echo $addr['address_id']; ?>" 
                                                class="btn btn-sm btn-outline-primary">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a href="<?php echo APP_URL; ?>/user/addresses.php?delete=<?php echo $addr['address_id']; ?>" 
+                                            <a href="<?php echo APP_URL; ?>/views/user/addresses.php?delete=<?php echo $addr['address_id']; ?>" 
                                                class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa địa chỉ này?')">
                                                 <i class="fas fa-trash"></i>
                                             </a>

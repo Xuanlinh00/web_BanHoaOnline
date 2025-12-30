@@ -23,13 +23,13 @@
                         <a class="nav-link" href="/web_banhoa/">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/web_banhoa/products.php">Sản phẩm</a>
+                        <a class="nav-link" href="/web_banhoa/views/products/index.php">Sản phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/web_banhoa/contact.php">Liên hệ</a>
+                        <a class="nav-link" href="/web_banhoa/views/contact.php">Liên hệ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/web_banhoa/cart.php">
+                        <a class="nav-link" href="/web_banhoa/views/cart/index.php">
                             <i class="fas fa-shopping-cart"></i> Giỏ hàng
                         </a>
                     </li>
@@ -43,19 +43,19 @@
                                     <li><a class="dropdown-item" href="/web_banhoa/admin-dashboard.php">Quản trị</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                 <?php endif; ?>
-                                <li><a class="dropdown-item" href="/web_banhoa/profile.php">Hồ sơ</a></li>
-                                <li><a class="dropdown-item" href="/web_banhoa/orders.php">Đơn hàng</a></li>
-                                <li><a class="dropdown-item" href="/web_banhoa/addresses.php">Địa chỉ</a></li>
+                                <li><a class="dropdown-item" href="/web_banhoa/views/user/profile.php">Hồ sơ</a></li>
+                                <li><a class="dropdown-item" href="/web_banhoa/views/user/orders.php">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="/web_banhoa/views/user/addresses.php">Địa chỉ</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="/web_banhoa/logout.php">Đăng xuất</a></li>
+                                <li><a class="dropdown-item" href="/web_banhoa/views/auth/logout.php">Đăng xuất</a></li>
                             </ul>
                         </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/web_banhoa/login.php">Đăng nhập</a>
+                            <a class="nav-link" href="/web_banhoa/views/auth/login.php">Đăng nhập</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/web_banhoa/register.php">Đăng ký</a>
+                            <a class="nav-link" href="/web_banhoa/views/auth/register.php">Đăng ký</a>
                         </li>
                     <?php endif; ?>
                 </ul>

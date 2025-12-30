@@ -120,10 +120,10 @@ $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             </div>
 
             <div class="mt-4">
-                <a href="/web_banhoa/orders.php" class="btn btn-primary">
+                <a href="/web_banhoa/views/user/orders.php" class="btn btn-primary">
                     Xem đơn hàng của tôi
                 </a>
-                <a href="/web_banhoa/products.php" class="btn btn-outline-primary">
+                <a href="/web_banhoa/views/products/index.php" class="btn btn-outline-primary">
                     Tiếp tục mua sắm
                 </a>
             </div>

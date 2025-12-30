@@ -8,7 +8,7 @@ require_once 'models/Product.php';
 require_once 'models/Review.php';
 
 if (!isset($_GET['id'])) {
-    header('Location: /web_banhoa/products.php');
+    header('Location: /web_banhoa/views/products/index.php');
     exit;
 }
 
@@ -18,7 +18,7 @@ $review_model = new Review($conn);
 $product = $product_model->getProductById($_GET['id']);
 
 if (!$product) {
-    header('Location: /web_banhoa/products.php');
+    header('Location: /web_banhoa/views/products/index.php');
     exit;
 }
 
@@ -32,7 +32,7 @@ $reviews = $review_model->getProductReviews($product['product_id']);
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     if (!isLoggedIn()) {
-        header('Location: /web_banhoa/login.php');
+        header('Location: /web_banhoa/views/auth/login.php');
         exit;
     }
 

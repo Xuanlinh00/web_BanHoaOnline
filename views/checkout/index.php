@@ -41,7 +41,7 @@ foreach ($items as $item) {
 }
 
 if (empty($items)) {
-    header('Location: /web_banhoa/cart.php');
+    header('Location: /web_banhoa/views/cart/index.php');
     exit;
 }
 

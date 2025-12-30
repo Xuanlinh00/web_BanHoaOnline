@@ -31,7 +31,7 @@ $categories = $category->getAllCategories();
                     <div>
                         <h1 class="display-3 mb-3 fw-bold">🌸 Hoa Tươi Chất Lượng Cao</h1>
                         <p class="lead mb-4 fs-5">Gửi tặng yêu thương với những bó hoa tươi đẹp nhất</p>
-                        <a href="/web_banhoa/products.php" class="btn btn-light btn-lg fw-bold">Mua sắm ngay</a>
+                        <a href="/web_banhoa/views/products/index.php" class="btn btn-light btn-lg fw-bold">Mua sắm ngay</a>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@ $categories = $category->getAllCategories();
                     <div>
                         <h1 class="display-3 mb-3 fw-bold">🌹 Hoa Hồng Đỏ</h1>
                         <p class="lead mb-4 fs-5">Biểu tượng của tình yêu và sự lãng mạn</p>
-                        <a href="/web_banhoa/products.php?category=5" class="btn btn-light btn-lg fw-bold">Xem ngay</a>
+                        <a href="/web_banhoa/views/products/index.php?category=5" class="btn btn-light btn-lg fw-bold">Xem ngay</a>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@ $categories = $category->getAllCategories();
                     <div>
                         <h1 class="display-3 mb-3 fw-bold">🌻 Hoa Hướng Dương</h1>
                         <p class="lead mb-4 fs-5">Tươi sáng, rực rỡ, đầy năng lượng</p>
-                        <a href="/web_banhoa/products.php?category=1" class="btn btn-light btn-lg fw-bold">Xem ngay</a>
+                        <a href="/web_banhoa/views/products/index.php?category=1" class="btn btn-light btn-lg fw-bold">Xem ngay</a>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@ $categories = $category->getAllCategories();
         <div class="row g-3">
             <?php foreach ($categories as $cat): ?>
                 <div class="col-md-3">
-                    <a href="/web_banhoa/products.php?category=<?php echo $cat['category_id']; ?>" 
+                    <a href="/web_banhoa/views/products/index.php?category=<?php echo $cat['category_id']; ?>" 
                        class="card text-decoration-none text-dark h-100 shadow-sm">
                         <div class="card-body text-center">
                             <h5 class="card-title" style="color: var(--primary-color);"><?php echo $cat['name']; ?></h5>
@@ -108,7 +108,7 @@ $categories = $category->getAllCategories();
                             </div>
                         </div>
                         <div class="card-footer bg-white">
-                            <a href="/web_banhoa/product-detail.php?id=<?php echo $prod['product_id']; ?>" 
+                            <a href="/web_banhoa/views/products/detail.php?id=<?php echo $prod['product_id']; ?>" 
                                class="btn btn-primary btn-sm w-100">
                                 <i class="fas fa-eye"></i> Xem chi tiết
                             </a>

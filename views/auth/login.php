@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </form>
 
                     <hr>
-                    <p class="text-center">Chưa có tài khoản? <a href="/web_banhoa/auth/register.php">Đăng ký ngay</a></p>
+                    <p class="text-center">Chưa có tài khoản? <a href="/web_banhoa/views/auth/register.php">Đăng ký ngay</a></p>
                 </div>
             </div>
         </div>

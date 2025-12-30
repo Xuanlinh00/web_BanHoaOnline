@@ -25,14 +25,14 @@ $page_title = 'Trang không tìm thấy';
                         </a>
                     </div>
                     <div class="col-md-6">
-                        <a href="/web_banhoa/products.php" class="btn btn-outline-primary btn-lg w-100">
+                        <a href="/web_banhoa/views/products/index.php" class="btn btn-outline-primary btn-lg w-100">
                             <i class="fas fa-shopping-bag"></i> Xem sản phẩm
                         </a>
                     </div>
                 </div>
 
                 <div class="mt-5">
-                    <p class="text-muted">Bạn cần giúp đỡ? <a href="/web_banhoa/contact.php">Liên hệ với chúng tôi</a></p>
+                    <p class="text-muted">Bạn cần giúp đỡ? <a href="/web_banhoa/views/contact.php">Liên hệ với chúng tôi</a></p>
                 </div>
             </div>
         </div>

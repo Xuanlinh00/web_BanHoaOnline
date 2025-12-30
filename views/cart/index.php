@@ -15,14 +15,14 @@ $items = $cart->getCartItems($user_id);
 // Handle update quantity
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_quantity'])) {
     $cart->updateItemQuantity($_POST['cart_item_id'], $_POST['quantity']);
-    header('Location: /web_banhoa/cart.php');
+    header('Location: /web_banhoa/views/cart/index.php');
     exit;
 }
 
 // Handle remove item
 if (isset($_GET['remove'])) {
     $cart->removeItem($_GET['remove']);
-    header('Location: /web_banhoa/cart.php');
+    header('Location: /web_banhoa/views/cart/index.php');
     exit;
 }
 
@@ -55,12 +55,12 @@ $item_count = count($items);
                 </div>
                 <h3>Giỏ hàng của bạn đang trống</h3>
                 <p class="text-muted">Hãy khám phá các sản phẩm tuyệt vời của chúng tôi!</p>
-                <a href="/web_banhoa/products.php" class="btn btn-primary btn-lg">
+                <a href="/web_banhoa/views/products/index.php" class="btn btn-primary btn-lg">
                     <i class="fas fa-shopping-bag me-2"></i>Mua sắm ngay
                 </a>
             </div>
         <?php else: ?>
-            <form method="POST" action="/web_banhoa/checkout.php" id="cartForm">
+            <form method="POST" action="/web_banhoa/views/checkout/index.php" id="cartForm">
                 <div class="row">
                     <!-- Product List - Left Column (70%) -->
                     <div class="col-lg-8 col-md-7">
@@ -89,7 +89,7 @@ $item_count = count($items);
                                     
                                     <div class="item-details">
                                         <h5 class="item-name">
-                                            <a href="/web_banhoa/product-detail.php?id=<?php echo $item['product_id']; ?>">
+                                            <a href="/web_banhoa/views/products/detail.php?id=<?php echo $item['product_id']; ?>">
                                                 <?php echo $item['name']; ?>
                                             </a>
                                         </h5>
@@ -135,7 +135,7 @@ $item_count = count($items);
 
                         <!-- Continue Shopping -->
                         <div class="continue-shopping mt-4">
-                            <a href="/web_banhoa/products.php" class="btn btn-outline-primary">
+                            <a href="/web_banhoa/views/products/index.php" class="btn btn-outline-primary">
                                 <i class="fas fa-arrow-left me-2"></i>Tiếp tục mua sắm
                             </a>
                         </div>
@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
                 const itemId = this.getAttribute('data-id');
-                window.location.href = '/web_banhoa/cart.php?remove=' + itemId;
+                window.location.href = '/web_banhoa/views/cart/index.php?remove=' + itemId;
             }
         });
     });

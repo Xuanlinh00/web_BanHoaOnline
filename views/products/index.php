@@ -37,11 +37,11 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
                 <div class="card-body">
                     <h5 class="card-title fw-bold" style="color: var(--primary-color);">🎀 Danh mục</h5>
                     <div class="list-group">
-                        <a href="/web_banhoa/products.php" class="list-group-item list-group-item-action <?php echo !$category_id ? 'active' : ''; ?>">
+                        <a href="/web_banhoa/views/products/index.php" class="list-group-item list-group-item-action <?php echo !$category_id ? 'active' : ''; ?>">
                             Tất cả
                         </a>
                         <?php foreach ($categories as $cat): ?>
-                            <a href="/web_banhoa/products.php?category=<?php echo $cat['category_id']; ?>" 
+                            <a href="/web_banhoa/views/products/index.php?category=<?php echo $cat['category_id']; ?>" 
                                class="list-group-item list-group-item-action <?php echo $category_id == $cat['category_id'] ? 'active' : ''; ?>">
                                 <?php echo $cat['name']; ?>
                             </a>
@@ -98,7 +98,7 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
                                     </div>
                                 </div>
                                 <div class="card-footer bg-white">
-                                    <a href="/web_banhoa/product-detail.php?id=<?php echo $prod['product_id']; ?>" 
+                                    <a href="/web_banhoa/views/products/detail.php?id=<?php echo $prod['product_id']; ?>" 
                                        class="btn btn-primary btn-sm w-100">
                                         <i class="fas fa-eye"></i> Xem chi tiết
                                     </a>
@@ -114,7 +114,7 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
                         <ul class="pagination justify-content-center">
                             <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                                 <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                    <a class="page-link" href="/web_banhoa/products.php?page=<?php echo $i; ?><?php echo $category_id ? '&category=' . $category_id : ''; ?><?php echo $search ? '&search=' . urlencode($search) : ''; ?>">
+                                    <a class="page-link" href="/web_banhoa/views/products/index.php?page=<?php echo $i; ?><?php echo $category_id ? '&category=' . $category_id : ''; ?><?php echo $search ? '&search=' . urlencode($search) : ''; ?>">
                                         <?php echo $i; ?>
                                     </a>
                                 </li>

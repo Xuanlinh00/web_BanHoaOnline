@@ -32,7 +32,7 @@ function logout() {
 // Redirect if not logged in
 function requireLogin() {
     if (!isLoggedIn()) {
-        header('Location: /web_banhoa/login.php');
+        header('Location: /web_banhoa/views/auth/login.php');
         exit;
     }
 }

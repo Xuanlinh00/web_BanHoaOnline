@@ -18,9 +18,9 @@
                     <h5 class="fw-bold mb-3">🔗 Liên kết</h5>
                     <ul class="list-unstyled">
                         <li><a href="/web_banhoa/">Trang chủ</a></li>
-                        <li><a href="/web_banhoa/products.php">Sản phẩm</a></li>
-                        <li><a href="/web_banhoa/contact.php">Liên hệ</a></li>
-                        <li><a href="/web_banhoa/faq.php">FAQ</a></li>
+                        <li><a href="/web_banhoa/views/products/index.php">Sản phẩm</a></li>
+                        <li><a href="/web_banhoa/views/contact.php">Liên hệ</a></li>
+                        <li><a href="/web_banhoa/views/faq.php">FAQ</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3 mb-3">
