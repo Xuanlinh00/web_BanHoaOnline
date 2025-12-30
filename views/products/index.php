@@ -35,7 +35,7 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
         <div class="col-md-3">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Danh mục</h5>
+                    <h5 class="card-title fw-bold" style="color: var(--primary-color);">🎀 Danh mục</h5>
                     <div class="list-group">
                         <a href="/web_banhoa/products.php" class="list-group-item list-group-item-action <?php echo !$category_id ? 'active' : ''; ?>">
                             Tất cả
@@ -52,7 +52,7 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Tìm kiếm</h5>
+                    <h5 class="card-title fw-bold" style="color: var(--primary-color);">🔍 Tìm kiếm</h5>
                     <form method="GET">
                         <div class="input-group">
                             <input type="text" class="form-control" name="search" placeholder="Tìm hoa..." value="<?php echo htmlspecialchars($search); ?>">
@@ -67,15 +67,15 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
 
         <!-- Products -->
         <div class="col-md-9">
-            <h2 class="mb-4">
+            <h2 class="mb-4 fw-bold" style="color: var(--primary-color);">
                 <?php 
                 if ($search) {
-                    echo 'Kết quả tìm kiếm: ' . htmlspecialchars($search);
+                    echo '🔍 Kết quả tìm kiếm: ' . htmlspecialchars($search);
                 } elseif ($category_id) {
                     $cat = $category->getCategoryById($category_id);
-                    echo $cat['name'];
+                    echo '🎀 ' . $cat['name'];
                 } else {
-                    echo 'Tất cả sản phẩm';
+                    echo '🌸 Tất cả sản phẩm';
                 }
                 ?>
             </h2>
@@ -93,7 +93,7 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
                                     <h5 class="card-title"><?php echo $prod['name']; ?></h5>
                                     <p class="card-text text-muted small"><?php echo substr($prod['description'], 0, 100) . '...'; ?></p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span class="h5 mb-0 text-danger"><?php echo number_format($prod['price'], 0, ',', '.'); ?>đ</span>
+                                        <span class="h5 mb-0" style="color: var(--primary-color);"><?php echo number_format($prod['price'], 0, ',', '.'); ?>đ</span>
                                         <small class="text-muted">Đã bán: <?php echo $prod['sold_count']; ?></small>
                                     </div>
                                 </div>

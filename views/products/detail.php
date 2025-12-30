@@ -53,13 +53,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         <div class="col-md-6">
             <div id="productCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <?php foreach ($product['images'] as $index => $img): ?>
+                    <?php 
+                    $images = !empty($product['images']) ? $product['images'] : [];
+                    // If no images in product_images table, use main image_url
+                    if (empty($images) && !empty($product['image_url'])) {
+                        $images = [['image_url' => $product['image_url']]];
+                    }
+                    ?>
+                    <?php foreach ($images as $index => $img): ?>
                         <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
                             <img src="<?php echo $img['image_url']; ?>" class="d-block w-100" alt="<?php echo $product['name']; ?>" style="height: 400px; object-fit: cover;">
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <?php if (count($product['images']) > 1): ?>
+                <?php if (count($images) > 1): ?>
                     <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
                     </button>
@@ -71,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 
             <!-- Thumbnails -->
             <div class="row g-2">
-                <?php foreach ($product['images'] as $index => $img): ?>
+                <?php foreach ($images as $index => $img): ?>
                     <div class="col-3">
                         <img src="<?php echo $img['image_url']; ?>" class="img-thumbnail cursor-pointer" 
                              onclick="document.querySelector('#productCarousel').querySelector('.carousel-item.active').classList.remove('active'); document.querySelectorAll('#productCarousel .carousel-item')[<?php echo $index; ?>].classList.add('active');"

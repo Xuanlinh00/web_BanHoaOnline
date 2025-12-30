@@ -1,0 +1,4 @@
+<?php
+chdir(__DIR__);
+include 'admin/categories.php';
+?>

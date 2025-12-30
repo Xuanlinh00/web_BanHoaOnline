@@ -95,7 +95,7 @@ foreach ($orders as &$order) {
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="/web_banhoa/user/order-detail.php?id=<?php echo $order['order_id']; ?>" class="btn btn-sm btn-primary">
+                            <a href="/web_banhoa/user-order-detail.php?id=<?php echo $order['order_id']; ?>" class="btn btn-sm btn-primary">
                                 Xem chi tiết
                             </a>
                         </div>

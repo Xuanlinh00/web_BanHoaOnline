@@ -1,14 +1,14 @@
 <?php
-require_once '../config/constants.php';
-require_once '../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
 requireAdmin();
 
 $page_title = 'Chi tiết đơn hàng';
-$conn = require '../config/database.php';
-require_once '../models/Order.php';
+$conn = require 'config/database.php';
+require_once 'models/Order.php';
 
 if (!isset($_GET['id'])) {
-    header('Location: ' . APP_URL . '/admin/orders.php');
+    header('Location: /web_banhoa/admin-orders.php');
     exit;
 }
 
@@ -16,7 +16,7 @@ $order_model = new Order($conn);
 $order = $order_model->getOrderById($_GET['id']);
 
 if (!$order) {
-    header('Location: ' . APP_URL . '/admin/orders.php');
+    header('Location: /web_banhoa/admin-orders.php');
     exit;
 }
 
@@ -27,7 +27,7 @@ $stmt->bind_param("i", $order['order_id']);
 $stmt->execute();
 $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 ?>
-<?php include '../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row mb-4">
@@ -172,7 +172,7 @@ $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                     <h5 class="mb-0">Cập nhật trạng thái</h5>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="<?php echo APP_URL; ?>/admin/orders.php">
+                    <form method="POST" action="/web_banhoa/admin-orders.php">
                         <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
                         <select name="status" class="form-select mb-3">
                             <option value="pending" <?php echo $order['status'] === 'pending' ? 'selected' : ''; ?>>Chờ xác nhận</option>
@@ -189,4 +189,4 @@ $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     </div>
 </div>
 
-<?php include '../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>

@@ -14,12 +14,34 @@ $address_model = new Address($conn);
 $order_model = new Order($conn);
 
 $user_id = getCurrentUserId();
-$items = $cart_model->getCartItems($user_id);
+$all_items = $cart_model->getCartItems($user_id);
+
+// Get selected items from POST data
+$selected_item_ids = $_POST['checkout_selected_items'] ?? [];
+$items = [];
+
+if (!empty($selected_item_ids)) {
+    // Filter only selected items
+    foreach ($all_items as $item) {
+        if (in_array($item['cart_item_id'], $selected_item_ids)) {
+            $items[] = $item;
+        }
+    }
+} else {
+    // If no selection, use all items (fallback)
+    $items = $all_items;
+}
+
 $addresses = $address_model->getUserAddresses($user_id);
-$subtotal = $cart_model->getCartTotal($user_id);
+
+// Calculate subtotal for selected items only
+$subtotal = 0;
+foreach ($items as $item) {
+    $subtotal += $item['price'] * $item['quantity'];
+}
 
 if (empty($items)) {
-    header('Location: ' . APP_URL . '/cart/index.php');
+    header('Location: /web_banhoa/cart.php');
     exit;
 }
 
@@ -56,14 +78,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $order_model->createOrder($user_id, $order_data);
 
         if ($result['success']) {
-            // Add items to order
+            // Add only selected items to order
             $order_model->addOrderItems($result['order_id'], $items);
             
-            // Clear cart
-            $cart_model->clearCart($user_id);
+            // Remove only selected items from cart
+            if (!empty($selected_item_ids)) {
+                foreach ($selected_item_ids as $cart_item_id) {
+                    $cart_model->removeItem($cart_item_id);
+                }
+            } else {
+                // Clear entire cart if no specific selection
+                $cart_model->clearCart($user_id);
+            }
 
             // Redirect to order confirmation
-            header('Location: ' . APP_URL . '/checkout/confirmation.php?order_id=' . $result['order_id']);
+            header('Location: /web_banhoa/checkout-confirmation.php?order_id=' . $result['order_id']);
             exit;
         } else {
             $error = $result['message'];
@@ -130,6 +159,12 @@ $max_date = date('Y-m-d', strtotime('+30 days'));
         <!-- Checkout Form -->
         <div class="col-md-8 order-md-1">
             <form method="POST">
+                <!-- Hidden inputs for selected items -->
+                <?php if (!empty($selected_item_ids)): ?>
+                    <?php foreach ($selected_item_ids as $item_id): ?>
+                        <input type="hidden" name="checkout_selected_items[]" value="<?php echo $item_id; ?>">
+                    <?php endforeach; ?>
+                <?php endif; ?>
                 <!-- Delivery Info -->
                 <div class="card mb-4">
                     <div class="card-header">

@@ -20,7 +20,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
+                        <a class="nav-link" href="/web_banhoa/">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/web_banhoa/products.php">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/web_banhoa/contact.php">Liên hệ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/web_banhoa/cart.php">

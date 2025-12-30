@@ -1,11 +1,11 @@
 <?php
-require_once '../config/constants.php';
-require_once '../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
 requireAdmin();
 
 $page_title = 'Duyệt đánh giá';
-$conn = require '../config/database.php';
-require_once '../models/Review.php';
+$conn = require 'config/database.php';
+require_once 'models/Review.php';
 
 $review_model = new Review($conn);
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -19,11 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['reject'])) {
         $review_model->rejectReview($_POST['review_id']);
     }
-    header('Location: ' . APP_URL . '/admin/reviews.php');
+    header('Location: /web_banhoa/admin-reviews.php');
     exit;
 }
 ?>
-<?php include '../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container-fluid">
     <div class="row mb-4">
@@ -94,4 +94,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 </div>
 
-<?php include '../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>

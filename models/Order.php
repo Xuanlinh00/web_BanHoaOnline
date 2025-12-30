@@ -13,10 +13,10 @@ class Order {
         
         $query = "INSERT INTO " . $this->table . " 
                   (user_id, order_code, delivery_date, delivery_time_slot, message_card, 
-                   is_anonymous, recipient_name, recipient_phone, shipping_address, 
-                   shipping_ward, shipping_district, shipping_city, subtotal, 
-                   shipping_fee, total_amount, shipping_method_id, payment_method_id, notes)
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                   is_anonymous, subtotal, shipping_fee, discount_amount, total_amount, 
+                   recipient_name, recipient_phone, shipping_address, shipping_ward, 
+                   shipping_district, shipping_city, shipping_method_id, payment_method_id, notes)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
@@ -25,25 +25,27 @@ class Order {
 
         $is_anonymous = isset($data['is_anonymous']) ? 1 : 0;
         $shipping_fee = $data['shipping_fee'] ?? 0;
-        $total = $data['subtotal'] + $shipping_fee;
+        $discount_amount = $data['discount_amount'] ?? 0;
+        $total = $data['subtotal'] + $shipping_fee - $discount_amount;
 
         $stmt->bind_param(
-            "issssisssssdddiis",
+            "isssiddddsssssssiis",
             $user_id,
             $order_code,
             $data['delivery_date'],
             $data['delivery_time_slot'],
             $data['message_card'],
             $is_anonymous,
+            $data['subtotal'],
+            $shipping_fee,
+            $discount_amount,
+            $total,
             $data['recipient_name'],
             $data['recipient_phone'],
             $data['shipping_address'],
             $data['shipping_ward'],
             $data['shipping_district'],
             $data['shipping_city'],
-            $data['subtotal'],
-            $shipping_fee,
-            $total,
             $data['shipping_method_id'],
             $data['payment_method_id'],
             $data['notes']

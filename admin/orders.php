@@ -1,11 +1,11 @@
 <?php
-require_once '../config/constants.php';
-require_once '../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
 requireAdmin();
 
 $page_title = 'Quản lý đơn hàng';
-$conn = require '../config/database.php';
-require_once '../models/Order.php';
+$conn = require 'config/database.php';
+require_once 'models/Order.php';
 
 $order_model = new Order($conn);
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     exit;
 }
 ?>
-<?php include '../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container-fluid">
     <div class="row mb-4">
@@ -122,4 +122,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     </div>
 </div>
 
-<?php include '../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>
