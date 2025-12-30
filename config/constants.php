@@ -1,7 +1,12 @@
 <?php
 /// Application Constants
 if (!defined('APP_URL')) {
-    define('APP_URL', '/web_banhoa');
+    // Auto-detect base application URL relative to the web server document root.
+    // This works when the project is placed in a subfolder of the server's docroot.
+    $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+    // If script is in root, use empty string else use the directory path
+    $base = $scriptDir === '/' ? '' : $scriptDir;
+    define('APP_URL', $base);
 }
 if (!defined('APP_NAME')) {
     define('APP_NAME', 'Web Bán Hoa');

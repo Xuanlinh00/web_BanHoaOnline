@@ -2,7 +2,8 @@
 require_once 'config/constants.php';
 require_once 'config/session.php';
 
+// Destroy session and redirect
 session_destroy();
-header('Location: /web_banhoa/index.php');
+header('Location: ' . APP_URL . '/index.php');
 exit;
 ?>

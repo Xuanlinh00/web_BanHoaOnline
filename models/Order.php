@@ -28,7 +28,7 @@ class Order {
         $total = $data['subtotal'] + $shipping_fee;
 
         $stmt->bind_param(
-            "issssisssssdddiis",
+            "issssisssssdddiiss",
             $user_id,
             $order_code,
             $data['delivery_date'],

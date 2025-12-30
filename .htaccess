@@ -1,9 +1,0 @@
-Options +FollowSymLinks
-RewriteEngine On
-
-# Allow direct access to files and directories
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-# Prevent directory listing
-Options -Indexes

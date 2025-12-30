@@ -1,88 +1,87 @@
 <?php
 require_once 'config/constants.php';
 require_once 'config/session.php';
-requireLogin();
 
 $page_title = 'Thanh toán';
+
+// Require login
+requireLogin();
+
 $conn = require 'config/database.php';
 require_once 'models/Cart.php';
-require_once 'models/Address.php';
 require_once 'models/Order.php';
+require_once 'models/Address.php';
 
-$cart_model = new Cart($conn);
-$address_model = new Address($conn);
-$order_model = new Order($conn);
+$cart = new Cart($conn);
+$order = new Order($conn);
+$address = new Address($conn);
 
 $user_id = getCurrentUserId();
-$items = $cart_model->getCartItems($user_id);
-$addresses = $address_model->getUserAddresses($user_id);
-$subtotal = $cart_model->getCartTotal($user_id);
+$cart_items = $cart->getCartItems($user_id);
+$cart_total = $cart->getCartTotal($user_id);
 
-if (empty($items)) {
-    header('Location: ' . APP_URL . '/cart/index.php');
+// Redirect if cart is empty
+if (empty($cart_items)) {
+    header('Location: ' . APP_URL . '/cart.php');
     exit;
 }
 
+$user_addresses = $address->getUserAddresses($user_id);
 $error = '';
 $success = '';
 
+// Handle order submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validate required fields
-    if (empty($_POST['delivery_date']) || empty($_POST['delivery_time_slot']) || 
-        empty($_POST['recipient_name']) || empty($_POST['recipient_phone']) || 
-        empty($_POST['shipping_address']) || empty($_POST['shipping_district']) || 
-        empty($_POST['shipping_city'])) {
-        $error = 'Vui lòng điền đầy đủ thông tin giao hàng';
+    $delivery_date = $_POST['delivery_date'] ?? '';
+    $delivery_time_slot = $_POST['delivery_time_slot'] ?? '';
+    $message_card = $_POST['message_card'] ?? '';
+    $recipient_name = $_POST['recipient_name'] ?? '';
+    $recipient_phone = $_POST['recipient_phone'] ?? '';
+    $shipping_address = $_POST['shipping_address'] ?? '';
+    $shipping_ward = $_POST['shipping_ward'] ?? '';
+    $shipping_district = $_POST['shipping_district'] ?? '';
+    $shipping_city = $_POST['shipping_city'] ?? '';
+    $payment_method_id = $_POST['payment_method_id'] ?? 1;
+    $notes = $_POST['notes'] ?? '';
+
+    if (empty($delivery_date) || empty($recipient_name) || empty($recipient_phone) || empty($shipping_address)) {
+        $error = 'Vui lòng điền đầy đủ thông tin bắt buộc';
     } else {
-        // Create order
         $order_data = [
-            'delivery_date' => $_POST['delivery_date'],
-            'delivery_time_slot' => $_POST['delivery_time_slot'],
-            'message_card' => $_POST['message_card'] ?? '',
+            'delivery_date' => $delivery_date,
+            'delivery_time_slot' => $delivery_time_slot,
+            'message_card' => $message_card,
             'is_anonymous' => isset($_POST['is_anonymous']),
-            'recipient_name' => $_POST['recipient_name'],
-            'recipient_phone' => $_POST['recipient_phone'],
-            'shipping_address' => $_POST['shipping_address'],
-            'shipping_ward' => $_POST['shipping_ward'] ?? '',
-            'shipping_district' => $_POST['shipping_district'],
-            'shipping_city' => $_POST['shipping_city'],
-            'subtotal' => $subtotal,
-            'shipping_fee' => 30000, // Fixed fee for now
+            'recipient_name' => $recipient_name,
+            'recipient_phone' => $recipient_phone,
+            'shipping_address' => $shipping_address,
+            'shipping_ward' => $shipping_ward,
+            'shipping_district' => $shipping_district,
+            'shipping_city' => $shipping_city,
+            'subtotal' => $cart_total,
+            'shipping_fee' => 30000, // Fixed shipping fee
             'shipping_method_id' => 1,
-            'payment_method_id' => $_POST['payment_method'] ?? 1,
-            'notes' => $_POST['notes'] ?? ''
+            'payment_method_id' => $payment_method_id,
+            'notes' => $notes
         ];
 
-        $result = $order_model->createOrder($user_id, $order_data);
-
+        $result = $order->createOrder($user_id, $order_data);
+        
         if ($result['success']) {
-            // Add items to order
-            $order_model->addOrderItems($result['order_id'], $items);
+            // Add order items
+            $order->addOrderItems($result['order_id'], $cart_items);
             
             // Clear cart
-            $cart_model->clearCart($user_id);
-
-            // Redirect to order confirmation
-            header('Location: ' . APP_URL . '/checkout/confirmation.php?order_id=' . $result['order_id']);
+            $cart->clearCart($user_id);
+            
+            // Redirect to confirmation
+            header('Location: ' . APP_URL . '/checkout-confirmation.php?order=' . $result['order_code']);
             exit;
         } else {
             $error = $result['message'];
         }
     }
 }
-
-// Get time slots
-$time_slots = [
-    '08:00 - 10:00',
-    '10:00 - 12:00',
-    '14:00 - 16:00',
-    '16:00 - 18:00',
-    '18:00 - 20:00'
-];
-
-// Get minimum delivery date (tomorrow)
-$min_date = date('Y-m-d', strtotime('+1 day'));
-$max_date = date('Y-m-d', strtotime('+30 days'));
 ?>
 <?php include 'views/layout/header.php'; ?>
 
@@ -90,178 +89,172 @@ $max_date = date('Y-m-d', strtotime('+30 days'));
     <h2 class="mb-4">Thanh toán</h2>
 
     <?php if ($error): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?php echo $error; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
+        <div class="alert alert-danger"><?php echo $error; ?></div>
     <?php endif; ?>
 
-    <div class="row">
-        <!-- Order Summary -->
-        <div class="col-md-4 order-md-2 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Đơn hàng của bạn</h5>
-                    <hr>
-                    <?php foreach ($items as $item): ?>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span><?php echo $item['name']; ?> x<?php echo $item['quantity']; ?></span>
-                            <span><?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?>đ</span>
-                        </div>
-                    <?php endforeach; ?>
-                    <hr>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Tạm tính:</span>
-                        <span><?php echo number_format($subtotal, 0, ',', '.'); ?>đ</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-3">
-                        <span>Phí vận chuyển:</span>
-                        <span>30.000đ</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <strong>Tổng cộng:</strong>
-                        <strong class="text-danger h5"><?php echo number_format($subtotal + 30000, 0, ',', '.'); ?>đ</strong>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Checkout Form -->
-        <div class="col-md-8 order-md-1">
-            <form method="POST">
-                <!-- Delivery Info -->
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Delivery Information -->
                 <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="mb-0">Thông tin giao hàng</h5>
-                    </div>
                     <div class="card-body">
+                        <h5 class="card-title">Thông tin giao hàng</h5>
+                        
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="delivery_date" class="form-label">Ngày giao hàng *</label>
-                                <input type="date" class="form-control" id="delivery_date" name="delivery_date" 
-                                       min="<?php echo $min_date; ?>" max="<?php echo $max_date; ?>" required>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="delivery_date" class="form-label">Ngày giao hàng *</label>
+                                    <input type="date" class="form-control" id="delivery_date" name="delivery_date" 
+                                           min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" required>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="delivery_time_slot" class="form-label">Khung giờ giao hàng *</label>
-                                <select class="form-select" id="delivery_time_slot" name="delivery_time_slot" required>
-                                    <option value="">-- Chọn khung giờ --</option>
-                                    <?php foreach ($time_slots as $slot): ?>
-                                        <option value="<?php echo $slot; ?>"><?php echo $slot; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="delivery_time_slot" class="form-label">Khung giờ giao hàng</label>
+                                    <select class="form-select" id="delivery_time_slot" name="delivery_time_slot">
+                                        <option value="">Chọn khung giờ</option>
+                                        <option value="08:00-12:00">8:00 - 12:00</option>
+                                        <option value="13:00-17:00">13:00 - 17:00</option>
+                                        <option value="18:00-21:00">18:00 - 21:00</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="message_card" class="form-label">Thiệp chúc mừng (tùy chọn)</label>
+                            <label for="message_card" class="form-label">Lời nhắn trên thiệp</label>
                             <textarea class="form-control" id="message_card" name="message_card" rows="3" 
-                                      placeholder="Viết lời chúc mừng..."></textarea>
+                                      placeholder="Nhập lời chúc hoặc lời nhắn..."></textarea>
                         </div>
 
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="is_anonymous" name="is_anonymous">
                             <label class="form-check-label" for="is_anonymous">
-                                Gửi ẩn danh (không hiển thị tên người gửi)
+                                Gửi ẩn danh (không ghi tên người gửi)
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recipient Info -->
+                <!-- Recipient Information -->
                 <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="mb-0">Thông tin người nhận</h5>
-                    </div>
                     <div class="card-body">
-                        <?php if (!empty($addresses)): ?>
-                            <div class="mb-3">
-                                <label class="form-label">Chọn từ sổ địa chỉ</label>
-                                <select class="form-select" id="address_select" onchange="fillAddress(this.value)">
-                                    <option value="">-- Nhập địa chỉ mới --</option>
-                                    <?php foreach ($addresses as $addr): ?>
-                                        <option value="<?php echo htmlspecialchars(json_encode($addr)); ?>">
-                                            <?php echo $addr['recipient_name']; ?> - <?php echo $addr['address_line']; ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <hr>
-                        <?php endif; ?>
-
+                        <h5 class="card-title">Thông tin người nhận</h5>
+                        
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="recipient_name" class="form-label">Tên người nhận *</label>
-                                <input type="text" class="form-control" id="recipient_name" name="recipient_name" required>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="recipient_name" class="form-label">Tên người nhận *</label>
+                                    <input type="text" class="form-control" id="recipient_name" name="recipient_name" required>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="recipient_phone" class="form-label">Số điện thoại *</label>
-                                <input type="tel" class="form-control" id="recipient_phone" name="recipient_phone" required>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="recipient_phone" class="form-label">Số điện thoại *</label>
+                                    <input type="tel" class="form-control" id="recipient_phone" name="recipient_phone" required>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="shipping_address" class="form-label">Địa chỉ *</label>
-                            <input type="text" class="form-control" id="shipping_address" name="shipping_address" required>
+                            <input type="text" class="form-control" id="shipping_address" name="shipping_address" 
+                                   placeholder="Số nhà, tên đường..." required>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="shipping_ward" class="form-label">Phường/Xã</label>
-                                <input type="text" class="form-control" id="shipping_ward" name="shipping_ward">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="shipping_ward" class="form-label">Phường/Xã</label>
+                                    <input type="text" class="form-control" id="shipping_ward" name="shipping_ward">
+                                </div>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="shipping_district" class="form-label">Quận/Huyện *</label>
-                                <input type="text" class="form-control" id="shipping_district" name="shipping_district" required>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="shipping_district" class="form-label">Quận/Huyện</label>
+                                    <input type="text" class="form-control" id="shipping_district" name="shipping_district">
+                                </div>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="shipping_city" class="form-label">Thành phố *</label>
-                                <input type="text" class="form-control" id="shipping_city" name="shipping_city" required>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="shipping_city" class="form-label">Tỉnh/Thành phố</label>
+                                    <input type="text" class="form-control" id="shipping_city" name="shipping_city">
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="notes" class="form-label">Ghi chú (tùy chọn)</label>
-                            <textarea class="form-control" id="notes" name="notes" rows="2" 
-                                      placeholder="VD: Gọi trước khi giao, nhà có chó dữ..."></textarea>
                         </div>
                     </div>
                 </div>
 
                 <!-- Payment Method -->
                 <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="mb-0">Phương thức thanh toán</h5>
-                    </div>
                     <div class="card-body">
+                        <h5 class="card-title">Phương thức thanh toán</h5>
+                        
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_method" id="payment_cod" value="1" checked>
-                            <label class="form-check-label" for="payment_cod">
-                                Thanh toán khi nhận hàng (COD)
+                            <input class="form-check-input" type="radio" name="payment_method_id" id="cod" value="1" checked>
+                            <label class="form-check-label" for="cod">
+                                <i class="fas fa-money-bill-wave"></i> Thanh toán khi nhận hàng (COD)
+                            </label>
+                        </div>
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment_method_id" id="bank" value="2">
+                            <label class="form-check-label" for="bank">
+                                <i class="fas fa-university"></i> Chuyển khoản ngân hàng
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-lg w-100">
-                    Đặt hàng
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
+                <!-- Notes -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Ghi chú</h5>
+                        <textarea class="form-control" name="notes" rows="3" 
+                                  placeholder="Ghi chú thêm cho đơn hàng..."></textarea>
+                    </div>
+                </div>
+            </div>
 
-<script>
-function fillAddress(value) {
-    if (!value) return;
-    const addr = JSON.parse(value);
-    document.getElementById('recipient_name').value = addr.recipient_name;
-    document.getElementById('recipient_phone').value = addr.recipient_phone;
-    document.getElementById('shipping_address').value = addr.address_line;
-    document.getElementById('shipping_ward').value = addr.ward;
-    document.getElementById('shipping_district').value = addr.district;
-    document.getElementById('shipping_city').value = addr.city;
-}
-</script>
+            <div class="col-md-4">
+                <!-- Order Summary -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Đơn hàng của bạn</h5>
+                        
+                        <?php foreach ($cart_items as $item): ?>
+                            <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0"><?php echo $item['name']; ?></h6>
+                                    <small class="text-muted">Số lượng: <?php echo $item['quantity']; ?></small>
+                                </div>
+                                <span><?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?>đ</span>
+                            </div>
+                        <?php endforeach; ?>
+
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <span>Tạm tính:</span>
+                            <span><?php echo number_format($cart_total, 0, ',', '.'); ?>đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Phí vận chuyển:</span>
+                            <span>30.000đ</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold">
+                            <span>Tổng cộng:</span>
+                            <span class="text-danger"><?php echo number_format($cart_total + 30000, 0, ',', '.'); ?>đ</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mt-3">
+                            <i class="fas fa-check"></i> Đặt hàng
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
 <?php include 'views/layout/footer.php'; ?>

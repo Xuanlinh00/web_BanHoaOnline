@@ -1,5 +1,5 @@
 
-DROP DATABASE IF EXISTS web_banhoa;
+
 CREATE DATABASE web_banhoa;
 USE web_banhoa;
 

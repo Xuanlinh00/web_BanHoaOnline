@@ -41,55 +41,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow-sm">
+            <div class="card soft-shadow rounded-lg border-0">
                 <div class="card-body p-5">
-                    <h2 class="card-title text-center mb-4">Đăng ký tài khoản</h2>
+                    <div class="text-center mb-4">
+                        <i class="fas fa-user-plus text-primary" style="font-size: 3rem;"></i>
+                        <h2 class="card-title gradient-text flower-decoration mt-3">Đăng ký tài khoản</h2>
+                        <p class="text-muted">Tham gia cùng chúng tôi!</p>
+                    </div>
 
                     <?php if ($error): ?>
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <?php echo $error; ?>
+                            <i class="fas fa-exclamation-circle"></i> <?php echo $error; ?>
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
                     <?php endif; ?>
 
                     <?php if ($success): ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <?php echo $success; ?>
+                            <i class="fas fa-check-circle"></i> <?php echo $success; ?>
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
                     <?php endif; ?>
 
                     <form method="POST">
                         <div class="mb-3">
-                            <label for="username" class="form-label">Tên đăng nhập</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
+                            <label for="username" class="form-label text-primary">
+                                <i class="fas fa-user"></i> Tên đăng nhập
+                            </label>
+                            <input type="text" class="form-control rounded-pill" id="username" name="username" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <label for="email" class="form-label text-primary">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <input type="email" class="form-control rounded-pill" id="email" name="email" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="full_name" class="form-label">Họ và tên</label>
-                            <input type="text" class="form-control" id="full_name" name="full_name" required>
+                            <label for="full_name" class="form-label text-primary">
+                                <i class="fas fa-id-card"></i> Họ và tên
+                            </label>
+                            <input type="text" class="form-control rounded-pill" id="full_name" name="full_name" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="phone" class="form-label">Số điện thoại</label>
-                            <input type="tel" class="form-control" id="phone" name="phone">
+                            <label for="phone" class="form-label text-primary">
+                                <i class="fas fa-phone"></i> Số điện thoại
+                            </label>
+                            <input type="tel" class="form-control rounded-pill" id="phone" name="phone">
                         </div>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Mật khẩu</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="mb-4">
+                            <label for="password" class="form-label text-primary">
+                                <i class="fas fa-lock"></i> Mật khẩu
+                            </label>
+                            <input type="password" class="form-control rounded-pill" id="password" name="password" required>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
+                        <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">
+                            <i class="fas fa-user-plus"></i> Đăng ký
+                        </button>
                     </form>
 
-                    <hr>
-                    <p class="text-center">Đã có tài khoản? <a href="/web_banhoa/auth/login.php">Đăng nhập</a></p>
+                    <hr class="my-4">
+                    <div class="text-center">
+                        <p class="text-muted">Đã có tài khoản? 
+                            <a href="<?php echo APP_URL; ?>/login.php" class="text-primary text-decoration-none fw-bold">
+                                Đăng nhập <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -45,7 +45,7 @@ class Product {
 
         if ($product) {
             // Get images
-            $img_query = "SELECT image_url FROM product_images 
+            $img_query = "SELECT image_id, image_url FROM product_images 
                          WHERE product_id = ? 
                          ORDER BY sort_order ASC";
             $img_stmt = $this->conn->prepare($img_query);
@@ -98,6 +98,28 @@ class Product {
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $product_id);
         return $stmt->execute();
+    }
+
+    // Get related products (same category, excluding current product)
+    public function getRelatedProducts($product_id, $category_id, $limit = 4) {
+        $query = "SELECT p.*, c.name as category_name,
+                         COALESCE(
+                             (SELECT pi.image_url FROM product_images pi 
+                              WHERE pi.product_id = p.product_id 
+                              ORDER BY pi.sort_order ASC LIMIT 1),
+                             p.image_url,
+                             'https://via.placeholder.com/300x300?text=No+Image'
+                         ) as main_image
+                  FROM " . $this->table . " p
+                  LEFT JOIN categories c ON p.category_id = c.category_id
+                  WHERE p.category_id = ? AND p.product_id != ? AND p.status = 'available'
+                  ORDER BY RAND()
+                  LIMIT ?";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("iii", $category_id, $product_id, $limit);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 }
 ?>

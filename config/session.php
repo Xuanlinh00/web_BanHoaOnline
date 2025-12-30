@@ -32,7 +32,7 @@ function logout() {
 // Redirect if not logged in
 function requireLogin() {
     if (!isLoggedIn()) {
-        header('Location: /web_banhoa/login.php');
+        header('Location: ' . APP_URL . '/login.php');
         exit;
     }
 }
@@ -40,7 +40,7 @@ function requireLogin() {
 // Redirect if not admin
 function requireAdmin() {
     if (!isAdmin()) {
-        header('Location: /web_banhoa/index.php');
+        header('Location: ' . APP_URL . '/index.php');
         exit;
     }
 }
