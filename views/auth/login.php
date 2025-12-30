@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </button>
                     </form>
 
+<<<<<<< HEAD
                     <hr class="my-4">
                     <div class="text-center">
                         <p class="text-muted">Chưa có tài khoản? 
@@ -70,6 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </a>
                         </p>
                     </div>
+=======
+                    <hr>
+                    <p class="text-center">Chưa có tài khoản? <a href="/web_banhoa/views/auth/register.php">Đăng ký ngay</a></p>
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
                 </div>
             </div>
         </div>

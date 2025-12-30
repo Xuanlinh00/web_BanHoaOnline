@@ -83,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="container">
     <div class="row">
         <div class="col-md-3">
+<<<<<<< HEAD
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Tài khoản của tôi</h5>
@@ -98,6 +99,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </a>
                     </div>
                 </div>
+=======
+            <div class="list-group">
+                <a href="/web_banhoa/views/user/profile.php" class="list-group-item list-group-item-action active">
+                    <i class="fas fa-user"></i> Hồ sơ
+                </a>
+                <a href="/web_banhoa/views/user/orders.php" class="list-group-item list-group-item-action">
+                    <i class="fas fa-shopping-bag"></i> Đơn hàng
+                </a>
+                <a href="/web_banhoa/views/user/addresses.php" class="list-group-item list-group-item-action">
+                    <i class="fas fa-map-marker-alt"></i> Địa chỉ
+                </a>
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
             </div>
         </div>
 

@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 require_once __DIR__ . '/../config/constants.php';
 require_once __DIR__ . '/../config/session.php';
 
@@ -9,6 +10,15 @@ requireAdmin();
 
 $conn = require __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/Order.php';
+=======
+require_once 'config/constants.php';
+require_once 'config/session.php';
+requireAdmin();
+
+$page_title = 'Quản lý đơn hàng';
+$conn = require 'config/database.php';
+require_once 'models/Order.php';
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
 
 $order_model = new Order($conn);
 
@@ -30,7 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $orders = $order_model->getAllOrders($page, 20);
 ?>
+<<<<<<< HEAD
 <?php include __DIR__ . '/../views/layout/header.php'; ?>
+=======
+<?php include 'views/layout/header.php'; ?>
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
 
 <div class="container-fluid">
     <div class="row">
@@ -138,4 +152,8 @@ $orders = $order_model->getAllOrders($page, 20);
     </div>
 </div>
 
+<<<<<<< HEAD
 <?php include __DIR__ . '/../views/layout/footer.php'; ?>
+=======
+<?php include 'views/layout/footer.php'; ?>
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329

@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 require_once __DIR__ . '/../config/constants.php';
 require_once __DIR__ . '/../config/session.php';
 
@@ -11,6 +12,15 @@ $conn = require __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/Review.php';
 
 $review = new Review($conn);
+=======
+require_once 'config/constants.php';
+require_once 'config/session.php';
+requireAdmin();
+
+$page_title = 'Duyệt đánh giá';
+$conn = require 'config/database.php';
+require_once 'models/Review.php';
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $reviews = $review->getPendingReviews($page, 20);
@@ -35,9 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Có lỗi xảy ra khi từ chối đánh giá';
         }
     }
+<<<<<<< HEAD
 }
 ?>
 <?php include __DIR__ . '/../views/layout/header.php'; ?>
+=======
+    header('Location: /web_banhoa/admin-reviews.php');
+    exit;
+}
+?>
+<?php include 'views/layout/header.php'; ?>
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
 
 <div class="container-fluid">
     <div class="row">
@@ -134,4 +152,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
+<<<<<<< HEAD
 <?php include __DIR__ . '/../views/layout/footer.php'; ?>
+=======
+<?php include 'views/layout/footer.php'; ?>
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329

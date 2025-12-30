@@ -1,14 +1,14 @@
 <?php
-require_once '../../config/constants.php';
-require_once '../../config/session.php';
+require_once 'config/constants.php';
+require_once 'config/session.php';
 requireLogin();
 
 $page_title = 'Xác nhận đơn hàng';
-$conn = require '../../config/database.php';
-require_once '../../models/Order.php';
+$conn = require 'config/database.php';
+require_once 'models/Order.php';
 
 if (!isset($_GET['order_id'])) {
-    header('Location: ' . APP_URL . '/index.php');
+    header('Location: /web_banhoa/');
     exit;
 }
 
@@ -16,7 +16,7 @@ $order_model = new Order($conn);
 $order = $order_model->getOrderById($_GET['order_id']);
 
 if (!$order || $order['user_id'] != getCurrentUserId()) {
-    header('Location: ' . APP_URL . '/index.php');
+    header('Location: /web_banhoa/');
     exit;
 }
 
@@ -27,7 +27,7 @@ $stmt->bind_param("i", $order['order_id']);
 $stmt->execute();
 $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 ?>
-<?php include '../../views/layout/header.php'; ?>
+<?php include 'views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -36,7 +36,7 @@ $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                 <div class="card-body text-center py-5">
                     <i class="fas fa-check-circle text-success" style="font-size: 3rem;"></i>
                     <h2 class="mt-3">Đặt hàng thành công!</h2>
-                    <p class="text-muted">Cảm ơn bạn đã mua sắm tại <?php echo APP_NAME; ?></p>
+                    <p class="text-muted">Cảm ơn bạn đã mua sắm tại Web Bán Hoa</p>
                 </div>
             </div>
 
@@ -120,10 +120,10 @@ $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             </div>
 
             <div class="mt-4">
-                <a href="<?php echo APP_URL; ?>/user/orders.php" class="btn btn-primary">
+                <a href="/web_banhoa/views/user/orders.php" class="btn btn-primary">
                     Xem đơn hàng của tôi
                 </a>
-                <a href="<?php echo APP_URL; ?>/products/index.php" class="btn btn-outline-primary">
+                <a href="/web_banhoa/views/products/index.php" class="btn btn-outline-primary">
                     Tiếp tục mua sắm
                 </a>
             </div>
@@ -131,4 +131,4 @@ $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     </div>
 </div>
 
-<?php include '../../views/layout/footer.php'; ?>
+<?php include 'views/layout/footer.php'; ?>

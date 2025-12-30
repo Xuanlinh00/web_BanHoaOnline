@@ -25,7 +25,7 @@ class Product {
 
     // Get total products count
     public function getTotalProducts() {
-        $query = "SELECT COUNT(*) as total FROM " . $this->table . " WHERE status = 'available'";
+        $query = "SELECT COUNT(*) as total FROM " . $this->table;
         $result = $this->conn->query($query);
         $row = $result->fetch_assoc();
         return $row['total'];

@@ -8,7 +8,11 @@ require_once 'models/Product.php';
 require_once 'models/Review.php';
 
 if (!isset($_GET['id'])) {
+<<<<<<< HEAD
     header('Location: ' . APP_URL . '/products.php');
+=======
+    header('Location: /web_banhoa/views/products/index.php');
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
     exit;
 }
 
@@ -18,7 +22,11 @@ $review_model = new Review($conn);
 $product = $product_model->getProductById($_GET['id']);
 
 if (!$product) {
+<<<<<<< HEAD
     header('Location: ' . APP_URL . '/products.php');
+=======
+    header('Location: /web_banhoa/views/products/index.php');
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
     exit;
 }
 
@@ -35,7 +43,11 @@ $related_products = $product_model->getRelatedProducts($product['product_id'], $
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     if (!isLoggedIn()) {
+<<<<<<< HEAD
         header('Location: ' . APP_URL . '/login.php');
+=======
+        header('Location: /web_banhoa/views/auth/login.php');
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
         exit;
     }
 
@@ -54,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     <div class="row">
         <!-- Gallery -->
         <div class="col-md-6">
+<<<<<<< HEAD
             <!-- Main Image -->
             <div class="mb-3">
                 <?php 
@@ -77,12 +90,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                      class="img-fluid rounded shadow" alt="<?php echo $product['name']; ?>" 
                      style="width: 100%; height: 400px; object-fit: cover;"
                      onerror="this.src='https://via.placeholder.com/400x400?text=Image+Error'">
+=======
+            <div id="productCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <?php 
+                    $images = !empty($product['images']) ? $product['images'] : [];
+                    // If no images in product_images table, use main image_url
+                    if (empty($images) && !empty($product['image_url'])) {
+                        $images = [['image_url' => $product['image_url']]];
+                    }
+                    ?>
+                    <?php foreach ($images as $index => $img): ?>
+                        <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
+                            <img src="<?php echo $img['image_url']; ?>" class="d-block w-100" alt="<?php echo $product['name']; ?>" style="height: 400px; object-fit: cover;">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php if (count($images) > 1): ?>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                <?php endif; ?>
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
             </div>
 
             <!-- Thumbnail Gallery -->
             <?php if (!empty($product['images']) && count($product['images']) > 1): ?>
             <div class="row g-2">
+<<<<<<< HEAD
                 <?php foreach (array_slice($product['images'], 0, 4) as $index => $img): ?>
+=======
+                <?php foreach ($images as $index => $img): ?>
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
                     <div class="col-3">
                         <img src="<?php echo $img['image_url']; ?>" 
                              class="img-thumbnail cursor-pointer thumbnail-img <?php echo $index === 0 ? 'active' : ''; ?>" 

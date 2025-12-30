@@ -20,6 +20,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
+<<<<<<< HEAD
                         <a class="nav-link text-white" href="<?php echo APP_URL; ?>/">
                             <i class="fas fa-home"></i> Trang chủ
                         </a>
@@ -32,6 +33,19 @@
                     <li class="nav-item">
                         <a class="nav-link text-white" href="<?php echo APP_URL; ?>/cart.php">
                             <i class="fas fa-shopping-cart"></i>
+=======
+                        <a class="nav-link" href="/web_banhoa/">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/web_banhoa/views/products/index.php">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/web_banhoa/views/contact.php">Liên hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/web_banhoa/views/cart/index.php">
+                            <i class="fas fa-shopping-cart"></i> Giỏ hàng
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
                         </a>
                     </li>
                     <?php if (isLoggedIn()): ?>
@@ -46,6 +60,7 @@
                                     </a></li>
                                     <li><hr class="dropdown-divider"></li>
                                 <?php endif; ?>
+<<<<<<< HEAD
                                 <li><a class="dropdown-item" href="<?php echo APP_URL; ?>/profile.php">
                                     <i class="fas fa-user"></i> Hồ sơ
                                 </a></li>
@@ -59,10 +74,18 @@
                                 <li><a class="dropdown-item" href="<?php echo APP_URL; ?>/logout.php">
                                     <i class="fas fa-sign-out-alt"></i> Đăng xuất
                                 </a></li>
+=======
+                                <li><a class="dropdown-item" href="/web_banhoa/views/user/profile.php">Hồ sơ</a></li>
+                                <li><a class="dropdown-item" href="/web_banhoa/views/user/orders.php">Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="/web_banhoa/views/user/addresses.php">Địa chỉ</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/web_banhoa/views/auth/logout.php">Đăng xuất</a></li>
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
                             </ul>
                         </li>
                     <?php else: ?>
                         <li class="nav-item">
+<<<<<<< HEAD
                             <a class="nav-link text-white" href="<?php echo APP_URL; ?>/login.php">
                                 <i class="fas fa-sign-in-alt"></i> Đăng nhập
                             </a>
@@ -71,6 +94,12 @@
                             <a class="nav-link text-white" href="<?php echo APP_URL; ?>/register.php">
                                 <i class="fas fa-user-plus"></i> Đăng ký
                             </a>
+=======
+                            <a class="nav-link" href="/web_banhoa/views/auth/login.php">Đăng nhập</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/web_banhoa/views/auth/register.php">Đăng ký</a>
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
                         </li>
                     <?php endif; ?>
                 </ul>

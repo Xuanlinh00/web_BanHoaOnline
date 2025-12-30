@@ -17,12 +17,43 @@ $order = new Order($conn);
 $address = new Address($conn);
 
 $user_id = getCurrentUserId();
+<<<<<<< HEAD
 $cart_items = $cart->getCartItems($user_id);
 $cart_total = $cart->getCartTotal($user_id);
 
 // Redirect if cart is empty
 if (empty($cart_items)) {
     header('Location: ' . APP_URL . '/cart.php');
+=======
+$all_items = $cart_model->getCartItems($user_id);
+
+// Get selected items from POST data
+$selected_item_ids = $_POST['checkout_selected_items'] ?? [];
+$items = [];
+
+if (!empty($selected_item_ids)) {
+    // Filter only selected items
+    foreach ($all_items as $item) {
+        if (in_array($item['cart_item_id'], $selected_item_ids)) {
+            $items[] = $item;
+        }
+    }
+} else {
+    // If no selection, use all items (fallback)
+    $items = $all_items;
+}
+
+$addresses = $address_model->getUserAddresses($user_id);
+
+// Calculate subtotal for selected items only
+$subtotal = 0;
+foreach ($items as $item) {
+    $subtotal += $item['price'] * $item['quantity'];
+}
+
+if (empty($items)) {
+    header('Location: /web_banhoa/views/cart/index.php');
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
     exit;
 }
 
@@ -68,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $order->createOrder($user_id, $order_data);
         
         if ($result['success']) {
+<<<<<<< HEAD
             // Add order items
             $order->addOrderItems($result['order_id'], $cart_items);
             
@@ -76,6 +108,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Redirect to confirmation
             header('Location: ' . APP_URL . '/checkout-confirmation.php?order=' . $result['order_code']);
+=======
+            // Add only selected items to order
+            $order_model->addOrderItems($result['order_id'], $items);
+            
+            // Remove only selected items from cart
+            if (!empty($selected_item_ids)) {
+                foreach ($selected_item_ids as $cart_item_id) {
+                    $cart_model->removeItem($cart_item_id);
+                }
+            } else {
+                // Clear entire cart if no specific selection
+                $cart_model->clearCart($user_id);
+            }
+
+            // Redirect to order confirmation
+            header('Location: /web_banhoa/checkout-confirmation.php?order_id=' . $result['order_id']);
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
             exit;
         } else {
             $error = $result['message'];
@@ -92,10 +141,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="alert alert-danger"><?php echo $error; ?></div>
     <?php endif; ?>
 
+<<<<<<< HEAD
     <form method="POST">
         <div class="row">
             <div class="col-md-8">
                 <!-- Delivery Information -->
+=======
+    <div class="row">
+        <!-- Order Summary -->
+        <div class="col-md-4 order-md-2 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Đơn hàng của bạn</h5>
+                    <hr>
+                    <?php foreach ($items as $item): ?>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span><?php echo $item['name']; ?> x<?php echo $item['quantity']; ?></span>
+                            <span><?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?>đ</span>
+                        </div>
+                    <?php endforeach; ?>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Tạm tính:</span>
+                        <span><?php echo number_format($subtotal, 0, ',', '.'); ?>đ</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Phí vận chuyển:</span>
+                        <span>30.000đ</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong>Tổng cộng:</strong>
+                        <strong class="text-danger h5"><?php echo number_format($subtotal + 30000, 0, ',', '.'); ?>đ</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Form -->
+        <div class="col-md-8 order-md-1">
+            <form method="POST">
+                <!-- Hidden inputs for selected items -->
+                <?php if (!empty($selected_item_ids)): ?>
+                    <?php foreach ($selected_item_ids as $item_id): ?>
+                        <input type="hidden" name="checkout_selected_items[]" value="<?php echo $item_id; ?>">
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <!-- Delivery Info -->
+>>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">Thông tin giao hàng</h5>
