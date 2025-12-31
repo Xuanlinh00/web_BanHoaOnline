@@ -7,7 +7,7 @@ class User {
         $this->conn = $db;
     }
 
-    // Register new user
+    // đăng ký user mới
     public function register($username, $email, $password, $full_name, $phone) {
         $query = "INSERT INTO " . $this->table . " 
                   (username, email, password_hash, full_name, phone, role) 

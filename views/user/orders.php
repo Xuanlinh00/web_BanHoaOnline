@@ -1,11 +1,13 @@
 <?php
-require_once 'config/constants.php';
-require_once 'config/session.php';
+define('ROOT_DIR', dirname(dirname(__DIR__)));
+
+require_once ROOT_DIR . '/config/constants.php';
+require_once ROOT_DIR . '/config/session.php';
 requireLogin();
 
 $page_title = 'Đơn hàng của tôi';
-$conn = require 'config/database.php';
-require_once 'models/Order.php';
+$conn = require ROOT_DIR . '/config/database.php';
+require_once ROOT_DIR . '/models/Order.php';
 
 $order_model = new Order($conn);
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -20,19 +22,19 @@ foreach ($orders as &$order) {
     $order['items'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 ?>
-<?php include 'views/layout/header.php'; ?>
+<?php include ROOT_DIR . '/views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href="/web_banhoa/views/user/profile.php" class="list-group-item list-group-item-action">
+                <a href="<?php echo APP_URL; ?>/views/user/profile.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-user"></i> Hồ sơ
                 </a>
-                <a href="/web_banhoa/views/user/orders.php" class="list-group-item list-group-item-action active">
+                <a href="<?php echo APP_URL; ?>/views/user/orders.php" class="list-group-item list-group-item-action active">
                     <i class="fas fa-shopping-bag"></i> Đơn hàng
                 </a>
-                <a href="/web_banhoa/views/user/addresses.php" class="list-group-item list-group-item-action">
+                <a href="<?php echo APP_URL; ?>/views/user/addresses.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-map-marker-alt"></i> Địa chỉ
                 </a>
             </div>
@@ -43,7 +45,7 @@ foreach ($orders as &$order) {
 
             <?php if (empty($orders)): ?>
                 <div class="alert alert-info">
-                    Bạn chưa có đơn hàng nào. <a href="/web_banhoa/views/products/index.php">Mua sắm ngay</a>
+                    Bạn chưa có đơn hàng nào. <a href="<?php echo APP_URL; ?>/views/products/index.php">Mua sắm ngay</a>
                 </div>
             <?php else: ?>
                 <?php foreach ($orders as $order): ?>
@@ -95,7 +97,7 @@ foreach ($orders as &$order) {
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="/web_banhoa/views/user/order-detail.php?id=<?php echo $order['order_id']; ?>" class="btn btn-sm btn-primary">
+                            <a href="<?php echo APP_URL; ?>/views/user/order-detail.php?id=<?php echo $order['order_id']; ?>" class="btn btn-sm btn-primary">
                                 Xem chi tiết
                             </a>
                         </div>
@@ -106,4 +108,4 @@ foreach ($orders as &$order) {
     </div>
 </div>
 
-<?php include 'views/layout/footer.php'; ?>
+<?php include ROOT_DIR . '/views/layout/footer.php'; ?>

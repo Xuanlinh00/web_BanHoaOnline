@@ -1,10 +1,12 @@
 <?php
-require_once 'config/constants.php';
-require_once 'config/session.php';
+define('ROOT_DIR', dirname(dirname(__DIR__)));
+
+require_once ROOT_DIR . '/config/constants.php';
+require_once ROOT_DIR . '/config/session.php';
 
 $page_title = 'Trang không tìm thấy';
 ?>
-<?php include 'views/layout/header.php'; ?>
+<?php include ROOT_DIR . '/views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -20,23 +22,23 @@ $page_title = 'Trang không tìm thấy';
 
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <a href="/web_banhoa/" class="btn btn-primary btn-lg w-100">
+                        <a href="<?php echo APP_URL; ?>/" class="btn btn-primary btn-lg w-100">
                             <i class="fas fa-home"></i> Về trang chủ
                         </a>
                     </div>
                     <div class="col-md-6">
-                        <a href="/web_banhoa/views/products/index.php" class="btn btn-outline-primary btn-lg w-100">
+                        <a href="<?php echo APP_URL; ?>/views/products/index.php" class="btn btn-outline-primary btn-lg w-100">
                             <i class="fas fa-shopping-bag"></i> Xem sản phẩm
                         </a>
                     </div>
                 </div>
 
                 <div class="mt-5">
-                    <p class="text-muted">Bạn cần giúp đỡ? <a href="/web_banhoa/views/contact.php">Liên hệ với chúng tôi</a></p>
+                    <p class="text-muted">Bạn cần giúp đỡ? <a href="<?php echo APP_URL; ?>/views/contact.php">Liên hệ với chúng tôi</a></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<?php include 'views/layout/footer.php'; ?>
+<?php include ROOT_DIR . '/views/layout/footer.php'; ?>

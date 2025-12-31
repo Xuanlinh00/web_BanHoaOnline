@@ -1,11 +1,13 @@
 <?php
-require_once 'config/constants.php';
-require_once 'config/session.php';
+define('ROOT_DIR', dirname(dirname(__DIR__)));
+
+require_once ROOT_DIR . '/config/constants.php';
+require_once ROOT_DIR . '/config/session.php';
 requireLogin();
 
 $page_title = 'Chi tiết đơn hàng';
-$conn = require 'config/database.php';
-require_once 'models/Order.php';
+$conn = require ROOT_DIR . '/config/database.php';
+require_once ROOT_DIR . '/models/Order.php';
 
 if (!isset($_GET['id'])) {
     header('Location: /web_banhoa/views/user/orders.php');
@@ -53,19 +55,19 @@ $status_color = [
     'returned' => 'secondary'
 ];
 ?>
-<?php include 'views/layout/header.php'; ?>
+<?php include ROOT_DIR . '/views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href="/web_banhoa/views/user/profile.php" class="list-group-item list-group-item-action">
+                <a href="<?php echo APP_URL; ?>/views/user/profile.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-user"></i> Hồ sơ
                 </a>
-                <a href="/web_banhoa/views/user/orders.php" class="list-group-item list-group-item-action active">
+                <a href="<?php echo APP_URL; ?>/views/user/orders.php" class="list-group-item list-group-item-action active">
                     <i class="fas fa-shopping-bag"></i> Đơn hàng
                 </a>
-                <a href="/web_banhoa/views/user/addresses.php" class="list-group-item list-group-item-action">
+                <a href="<?php echo APP_URL; ?>/views/user/addresses.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-map-marker-alt"></i> Địa chỉ
                 </a>
             </div>
@@ -74,7 +76,7 @@ $status_color = [
         <div class="col-md-9">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3>Chi tiết đơn hàng</h3>
-                <a href="/web_banhoa/views/user/orders.php" class="btn btn-outline-secondary">
+                <a href="<?php echo APP_URL; ?>/views/user/orders.php" class="btn btn-outline-secondary">
                     <i class="fas fa-arrow-left"></i> Quay lại
                 </a>
             </div>
@@ -247,9 +249,9 @@ $status_color = [
 function cancelOrder(orderId) {
     if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
         // Implement cancel order functionality
-        window.location.href = '/web_banhoa/cancel-order.php?id=' + orderId;
+        window.location.href = '<?php echo APP_URL; ?>/cancel-order.php?id=' + orderId;
     }
 }
 </script>
 
-<?php include 'views/layout/footer.php'; ?>
+<?php include ROOT_DIR . '/views/layout/footer.php'; ?>

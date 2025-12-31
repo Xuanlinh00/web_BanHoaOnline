@@ -1,11 +1,13 @@
 <?php
-require_once 'config/constants.php';
-require_once 'config/session.php';
+define('ROOT_DIR', dirname(dirname(__DIR__)));
+
+require_once ROOT_DIR . '/config/constants.php';
+require_once ROOT_DIR . '/config/session.php';
 requireLogin();
 
 $page_title = 'Sổ địa chỉ';
-$conn = require 'config/database.php';
-require_once 'models/Address.php';
+$conn = require ROOT_DIR . '/config/database.php';
+require_once ROOT_DIR . '/models/Address.php';
 
 $address_model = new Address($conn);
 $user_id = getCurrentUserId();
@@ -60,19 +62,19 @@ if (isset($_GET['edit'])) {
     $edit_address = $address_model->getAddressById($_GET['edit'], $user_id);
 }
 ?>
-<?php include 'views/layout/header.php'; ?>
+<?php include ROOT_DIR . '/views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href="/web_banhoa/views/user/profile.php" class="list-group-item list-group-item-action">
+                <a href="<?php echo APP_URL; ?>/views/user/profile.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-user"></i> Hồ sơ
                 </a>
-                <a href="/web_banhoa/views/user/orders.php" class="list-group-item list-group-item-action">
+                <a href="<?php echo APP_URL; ?>/views/user/orders.php" class="list-group-item list-group-item-action">
                     <i class="fas fa-shopping-bag"></i> Đơn hàng
                 </a>
-                <a href="/web_banhoa/views/user/addresses.php" class="list-group-item list-group-item-action active">
+                <a href="<?php echo APP_URL; ?>/views/user/addresses.php" class="list-group-item list-group-item-action active">
                     <i class="fas fa-map-marker-alt"></i> Địa chỉ
                 </a>
             </div>
@@ -203,4 +205,4 @@ if (isset($_GET['edit'])) {
     </div>
 </div>
 
-<?php include 'views/layout/footer.php'; ?>
+<?php include ROOT_DIR . '/views/layout/footer.php'; ?>

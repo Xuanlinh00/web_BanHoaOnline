@@ -1,0 +1,8 @@
+# AI / tool
+.claude/
+
+# Upload images
+uploads/
+
+# Test files
+test-*.php

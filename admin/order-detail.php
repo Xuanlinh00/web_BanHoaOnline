@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
 require_once __DIR__ . '/../config/constants.php';
 require_once __DIR__ . '/../config/session.php';
 
@@ -10,18 +9,6 @@ requireAdmin();
 
 if (!isset($_GET['id'])) {
     header('Location: ' . APP_URL . '/admin-orders.php');
-=======
-require_once 'config/constants.php';
-require_once 'config/session.php';
-requireAdmin();
-
-$page_title = 'Chi tiết đơn hàng';
-$conn = require 'config/database.php';
-require_once 'models/Order.php';
-
-if (!isset($_GET['id'])) {
-    header('Location: /web_banhoa/admin-orders.php');
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
     exit;
 }
 
@@ -35,11 +22,7 @@ $order_id = (int)$_GET['id'];
 $order = $order_model->getOrderById($order_id);
 
 if (!$order) {
-<<<<<<< HEAD
     header('Location: ' . APP_URL . '/admin-orders.php');
-=======
-    header('Location: /web_banhoa/admin-orders.php');
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
     exit;
 }
 
@@ -74,21 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<<<<<<< HEAD
 <?php include __DIR__ . '/../views/layout/header.php'; ?>
-=======
-<?php include 'views/layout/header.php'; ?>
-
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <a href="<?php echo APP_URL; ?>/admin/orders.php" class="btn btn-outline-secondary mb-3">
-                <i class="fas fa-arrow-left"></i> Quay lại
-            </a>
-            <h2>Chi tiết đơn hàng <?php echo $order['order_code']; ?></h2>
-        </div>
-    </div>
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
 
 <div class="container-fluid">
     <div class="row">
@@ -127,7 +96,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php echo $message; ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-<<<<<<< HEAD
             <?php endif; ?>
 
             <?php if ($error): ?>
@@ -260,28 +228,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </form>
                         </div>
                     </div>
-=======
-                <div class="card-body">
-                    <form method="POST" action="/web_banhoa/admin-orders.php">
-                        <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
-                        <select name="status" class="form-select mb-3">
-                            <option value="pending" <?php echo $order['status'] === 'pending' ? 'selected' : ''; ?>>Chờ xác nhận</option>
-                            <option value="confirmed" <?php echo $order['status'] === 'confirmed' ? 'selected' : ''; ?>>Đã xác nhận</option>
-                            <option value="shipping" <?php echo $order['status'] === 'shipping' ? 'selected' : ''; ?>>Đang giao</option>
-                            <option value="completed" <?php echo $order['status'] === 'completed' ? 'selected' : ''; ?>>Hoàn tất</option>
-                            <option value="cancelled" <?php echo $order['status'] === 'cancelled' ? 'selected' : ''; ?>>Hủy</option>
-                        </select>
-                        <button type="submit" name="update_status" class="btn btn-primary w-100">Cập nhật</button>
-                    </form>
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<<<<<<< HEAD
 <?php include __DIR__ . '/../views/layout/footer.php'; ?>
-=======
-<?php include 'views/layout/footer.php'; ?>
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329

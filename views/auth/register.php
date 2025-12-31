@@ -1,15 +1,15 @@
 <?php
-require_once 'config/constants.php';
-require_once 'config/session.php';
-require_once 'config/database.php';
-require_once 'models/User.php';
+define('ROOT_DIR', dirname(dirname(__DIR__)));
+require_once ROOT_DIR . '/config/constants.php';
+require_once ROOT_DIR . '/config/session.php';
 
 $page_title = 'Đăng ký';
 $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $conn = require 'config/database.php';
+    $conn = require ROOT_DIR . '/config/database.php';
+    require_once ROOT_DIR . '/models/User.php';
     $user = new User($conn);
 
     // Validate input
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<?php include 'views/layout/header.php'; ?>
+<?php include ROOT_DIR . '/views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -104,23 +104,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </button>
                     </form>
 
-<<<<<<< HEAD
                     <hr class="my-4">
                     <div class="text-center">
                         <p class="text-muted">Đã có tài khoản? 
-                            <a href="<?php echo APP_URL; ?>/login.php" class="text-primary text-decoration-none fw-bold">
+                            <a href="<?php echo APP_URL; ?>/views/auth/login.php" class="text-primary text-decoration-none fw-bold">
                                 Đăng nhập <i class="fas fa-arrow-right"></i>
                             </a>
                         </p>
                     </div>
-=======
-                    <hr>
-                    <p class="text-center">Đã có tài khoản? <a href="/web_banhoa/views/auth/login.php">Đăng nhập</a></p>
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<?php include 'views/layout/footer.php'; ?>
+<?php include ROOT_DIR . '/views/layout/footer.php'; ?>

@@ -1,15 +1,15 @@
 <?php
-require_once 'config/constants.php';
-require_once 'config/session.php';
-require_once 'config/database.php';
-require_once 'models/User.php';
+define('ROOT_DIR', dirname(dirname(__DIR__)));
+require_once ROOT_DIR . '/config/constants.php';
+require_once ROOT_DIR . '/config/session.php';
 
 $page_title = 'Đăng nhập';
 $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $conn = require 'config/database.php';
+    $conn = require ROOT_DIR . '/config/database.php';
+    require_once ROOT_DIR . '/models/User.php';
     $user = new User($conn);
 
     $result = $user->login($_POST['username'], $_POST['password']);
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<?php include 'views/layout/header.php'; ?>
+<?php include ROOT_DIR . '/views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -62,23 +62,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </button>
                     </form>
 
-<<<<<<< HEAD
                     <hr class="my-4">
                     <div class="text-center">
                         <p class="text-muted">Chưa có tài khoản? 
-                            <a href="<?php echo APP_URL; ?>/register.php" class="text-primary text-decoration-none fw-bold">
+                            <a href="<?php echo APP_URL; ?>/views/auth/register.php" class="text-primary text-decoration-none fw-bold">
                                 Đăng ký ngay <i class="fas fa-arrow-right"></i>
                             </a>
                         </p>
                     </div>
-=======
-                    <hr>
-                    <p class="text-center">Chưa có tài khoản? <a href="/web_banhoa/views/auth/register.php">Đăng ký ngay</a></p>
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<?php include 'views/layout/footer.php'; ?>
+<?php include ROOT_DIR . '/views/layout/footer.php'; ?>

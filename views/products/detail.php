@@ -1,18 +1,15 @@
 <?php
-require_once 'config/constants.php';
-require_once 'config/session.php';
+define('ROOT_DIR', dirname(dirname(__DIR__)));
+require_once ROOT_DIR . '/config/constants.php';
+require_once ROOT_DIR . '/config/session.php';
 
 $page_title = 'Chi tiết sản phẩm';
-$conn = require 'config/database.php';
-require_once 'models/Product.php';
-require_once 'models/Review.php';
+$conn = require ROOT_DIR . '/config/database.php';
+require_once ROOT_DIR . '/models/Product.php';
+require_once ROOT_DIR . '/models/Review.php';
 
 if (!isset($_GET['id'])) {
-<<<<<<< HEAD
-    header('Location: ' . APP_URL . '/products.php');
-=======
-    header('Location: /web_banhoa/views/products/index.php');
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
+    header('Location: ' . APP_URL . '/views/products/index.php');
     exit;
 }
 
@@ -22,11 +19,7 @@ $review_model = new Review($conn);
 $product = $product_model->getProductById($_GET['id']);
 
 if (!$product) {
-<<<<<<< HEAD
-    header('Location: ' . APP_URL . '/products.php');
-=======
-    header('Location: /web_banhoa/views/products/index.php');
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
+    header('Location: ' . APP_URL . '/views/products/index.php');
     exit;
 }
 
@@ -43,15 +36,11 @@ $related_products = $product_model->getRelatedProducts($product['product_id'], $
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     if (!isLoggedIn()) {
-<<<<<<< HEAD
-        header('Location: ' . APP_URL . '/login.php');
-=======
-        header('Location: /web_banhoa/views/auth/login.php');
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
+        header('Location: ' . APP_URL . '/views/auth/login.php');
         exit;
     }
 
-    require_once 'models/Cart.php';
+    require_once ROOT_DIR . '/models/Cart.php';
     $cart = new Cart($conn);
     $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
     
@@ -60,13 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     }
 }
 ?>
-<?php include 'views/layout/header.php'; ?>
+<?php include ROOT_DIR . '/views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row">
         <!-- Gallery -->
         <div class="col-md-6">
-<<<<<<< HEAD
             <!-- Main Image -->
             <div class="mb-3">
                 <?php 
@@ -86,52 +74,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                     $main_image = 'https://via.placeholder.com/400x400?text=Product+' . $product['product_id'];
                 }
                 ?>
-                <img id="mainImage" src="<?php echo $main_image; ?>" 
-                     class="img-fluid rounded shadow" alt="<?php echo $product['name']; ?>" 
-                     style="width: 100%; height: 400px; object-fit: cover;"
-                     onerror="this.src='https://via.placeholder.com/400x400?text=Image+Error'">
-=======
-            <div id="productCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <?php 
-                    $images = !empty($product['images']) ? $product['images'] : [];
-                    // If no images in product_images table, use main image_url
-                    if (empty($images) && !empty($product['image_url'])) {
-                        $images = [['image_url' => $product['image_url']]];
-                    }
-                    ?>
-                    <?php foreach ($images as $index => $img): ?>
-                        <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
-                            <img src="<?php echo $img['image_url']; ?>" class="d-block w-100" alt="<?php echo $product['name']; ?>" style="height: 400px; object-fit: cover;">
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-                <?php if (count($images) > 1): ?>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </button>
-                <?php endif; ?>
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
+                <img id="mainImage" src="<?php echo htmlspecialchars($main_image); ?>" 
+                     class="img-fluid rounded shadow" alt="<?php echo htmlspecialchars($product['name']); ?>" 
+                     style="width: 100%; height: 400px; object-fit: cover; background-color: #f5f5f5;"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x400?text=No+Image'; this.style.opacity='0.5';">
             </div>
 
             <!-- Thumbnail Gallery -->
             <?php if (!empty($product['images']) && count($product['images']) > 1): ?>
             <div class="row g-2">
-<<<<<<< HEAD
                 <?php foreach (array_slice($product['images'], 0, 4) as $index => $img): ?>
-=======
-                <?php foreach ($images as $index => $img): ?>
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
                     <div class="col-3">
-                        <img src="<?php echo $img['image_url']; ?>" 
+                        <img src="<?php echo htmlspecialchars($img['image_url']); ?>" 
                              class="img-thumbnail cursor-pointer thumbnail-img <?php echo $index === 0 ? 'active' : ''; ?>" 
-                             onclick="changeMainImage('<?php echo $img['image_url']; ?>', this)"
-                             alt="<?php echo $product['name']; ?>" 
-                             style="height: 80px; object-fit: cover; cursor: pointer;"
-                             onerror="this.style.display='none'">
+                             onclick="changeMainImage('<?php echo htmlspecialchars($img['image_url']); ?>', this)"
+                             alt="<?php echo htmlspecialchars($product['name']); ?>" 
+                             style="height: 80px; object-fit: cover; cursor: pointer; background-color: #f5f5f5;"
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/80x80?text=No+Image'; this.style.opacity='0.5';">
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -140,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 
         <!-- Product Info -->
         <div class="col-md-6">
-            <h1><?php echo $product['name']; ?></h1>
+            <h1 class="gradient-text"><?php echo $product['name']; ?></h1>
             
             <div class="mb-3">
                 <span class="badge bg-primary"><?php echo $product['category_name']; ?></span>
@@ -150,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
             <p class="text-muted"><?php echo $product['description']; ?></p>
 
             <div class="mb-4">
-                <h3 class="text-danger"><?php echo number_format($product['price'], 0, ',', '.'); ?>đ</h3>
+                <h3 class="price-text"><?php echo number_format($product['price'], 0, ',', '.'); ?>đ</h3>
                 <p class="text-muted">Tồn kho: <strong><?php echo $product['stock']; ?></strong></p>
             </div>
 
@@ -158,13 +117,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                 <div class="alert alert-success"><?php echo $message; ?></div>
             <?php endif; ?>
 
-            <?php if ($product['stock'] > 0): ?>
+            <?php if (isAdmin()): ?>
+                <div class="alert alert-warning">
+                    <i class="fas fa-info-circle"></i> Tài khoản quản trị không thể mua hàng. Vui lòng sử dụng tài khoản khách hàng để mua sắm.
+                </div>
+            <?php elseif ($product['stock'] > 0): ?>
                 <form method="POST" class="mb-4">
                     <div class="mb-3">
                         <label for="quantity" class="form-label">Số lượng</label>
                         <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="<?php echo $product['stock']; ?>">
                     </div>
-                    <button type="submit" name="add_to_cart" class="btn btn-primary btn-lg w-100">
+                    <button type="submit" name="add_to_cart" class="btn btn-primary btn-lg w-100 rounded-pill">
                         <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
                     </button>
                 </form>
@@ -178,24 +141,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     <?php if (!empty($related_products)): ?>
     <div class="row mt-5">
         <div class="col-12">
-            <h3 class="mb-4">Sản phẩm liên quan</h3>
-            <div class="row">
+            <h3 class="mb-4 gradient-text rose-decoration">Sản phẩm liên quan</h3>
+            <div class="row g-4">
                 <?php foreach ($related_products as $related): ?>
-                    <div class="col-md-3 mb-4">
-                        <div class="card h-100 shadow-sm">
+                    <div class="col-md-3">
+                        <div class="card product-card h-100">
                             <?php 
-                            $related_image = $related['main_image'] ?: 'https://via.placeholder.com/300x300?text=No+Image';
+                            $related_image = !empty($related['main_image']) ? $related['main_image'] : 'https://via.placeholder.com/300x300?text=No+Image';
                             ?>
-                            <img src="<?php echo $related_image; ?>" 
-                                 class="card-img-top" alt="<?php echo $related['name']; ?>"
-                                 style="height: 200px; object-fit: cover;">
+                            <img src="<?php echo htmlspecialchars($related_image); ?>" 
+                                 class="card-img-top product-image" alt="<?php echo htmlspecialchars($related['name']); ?>"
+                                 style="height: 250px; object-fit: cover; background-color: #f5f5f5;"
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/300x300?text=No+Image'; this.style.opacity='0.5';">
                             <div class="card-body d-flex flex-column">
-                                <h6 class="card-title"><?php echo $related['name']; ?></h6>
-                                <p class="card-text text-muted small flex-grow-1"><?php echo substr($related['description'], 0, 80) . '...'; ?></p>
+                                <h6 class="card-title text-primary"><?php echo htmlspecialchars($related['name']); ?></h6>
+                                <p class="card-text text-muted small flex-grow-1"><?php echo htmlspecialchars(substr($related['description'], 0, 80)) . '...'; ?></p>
                                 <div class="mt-auto">
-                                    <p class="text-danger fw-bold mb-2"><?php echo number_format($related['price'], 0, ',', '.'); ?>đ</p>
-                                    <a href="<?php echo APP_URL; ?>/product-detail.php?id=<?php echo $related['product_id']; ?>" 
-                                       class="btn btn-outline-primary btn-sm w-100">Xem chi tiết</a>
+                                    <p class="price-text mb-2"><?php echo number_format($related['price'], 0, ',', '.'); ?>đ</p>
+                                    <a href="<?php echo APP_URL; ?>/views/products/detail.php?id=<?php echo $related['product_id']; ?>" 
+                                       class="btn btn-outline-primary btn-sm w-100 rounded-pill">Xem chi tiết</a>
                                 </div>
                             </div>
                         </div>
@@ -209,13 +173,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     <!-- Reviews -->
     <div class="row mt-5">
         <div class="col-md-8">
-            <h3>Đánh giá sản phẩm</h3>
+            <h3 class="gradient-text flower-decoration">Đánh giá sản phẩm</h3>
             
             <?php if (empty($reviews)): ?>
                 <p class="text-muted">Chưa có đánh giá nào.</p>
             <?php else: ?>
                 <?php foreach ($reviews as $review): ?>
-                    <div class="card mb-3">
+                    <div class="card mb-3 soft-shadow">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
@@ -253,7 +217,7 @@ function changeMainImage(imageUrl, thumbnail) {
 
 <style>
 .thumbnail-img.active {
-    border: 2px solid #007bff !important;
+    border: 2px solid #e91e63 !important;
 }
 
 .thumbnail-img:hover {
@@ -261,4 +225,4 @@ function changeMainImage(imageUrl, thumbnail) {
 }
 </style>
 
-<?php include 'views/layout/footer.php'; ?>
+<?php include ROOT_DIR . '/views/layout/footer.php'; ?>

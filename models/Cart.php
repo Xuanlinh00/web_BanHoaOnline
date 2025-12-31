@@ -8,7 +8,7 @@ class Cart {
         $this->conn = $db;
     }
 
-    // Get or create cart for user
+    // Lấy hoặc tạo giỏ hàng cho người dùng
     private function getOrCreateCart($user_id) {
         $query = "SELECT cart_id FROM " . $this->carts_table . " WHERE user_id = ?";
         $stmt = $this->conn->prepare($query);
@@ -28,7 +28,7 @@ class Cart {
         }
     }
 
-    // Add item to cart
+    // Thêm sản phẩm vào giỏ hàng
     public function addItem($user_id, $product_id, $quantity = 1) {
         $cart_id = $this->getOrCreateCart($user_id);
 
@@ -45,8 +45,8 @@ class Cart {
     public function getCartItems($user_id) {
         $cart_id = $this->getOrCreateCart($user_id);
 
-        $query = "SELECT ci.cart_item_id, ci.product_id, ci.quantity, 
-                         p.name, p.price, p.image_url, p.stock
+        $query = "SELECT ci.cart_item_id as cart_id, ci.product_id, ci.quantity, 
+                         p.name as product_name, p.price, p.image_url, p.stock
                   FROM " . $this->cart_items_table . " ci
                   JOIN products p ON ci.product_id = p.product_id
                   WHERE ci.cart_id = ?
@@ -59,6 +59,18 @@ class Cart {
     }
 
     // Update item quantity
+    public function updateQuantity($cart_id, $user_id, $quantity) {
+        if ($quantity <= 0) {
+            return $this->removeItem($cart_id);
+        }
+
+        $query = "UPDATE " . $this->cart_items_table . " SET quantity = ? WHERE cart_item_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ii", $quantity, $cart_id);
+        return $stmt->execute();
+    }
+
+    // Update item quantity (old method name for compatibility)
     public function updateItemQuantity($cart_item_id, $quantity) {
         if ($quantity <= 0) {
             return $this->removeItem($cart_item_id);
@@ -71,10 +83,10 @@ class Cart {
     }
 
     // Remove item from cart
-    public function removeItem($cart_item_id) {
+    public function removeItem($cart_id, $user_id = null) {
         $query = "DELETE FROM " . $this->cart_items_table . " WHERE cart_item_id = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $cart_item_id);
+        $stmt->bind_param("i", $cart_id);
         return $stmt->execute();
     }
 

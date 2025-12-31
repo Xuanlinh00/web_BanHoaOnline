@@ -1,10 +1,12 @@
 <?php
-require_once 'config/constants.php';
-require_once 'config/session.php';
+define('ROOT_DIR', dirname(dirname(__DIR__)));
+
+require_once ROOT_DIR . '/config/constants.php';
+require_once ROOT_DIR . '/config/session.php';
 
 $page_title = 'Câu hỏi thường gặp';
 ?>
-<?php include 'views/layout/header.php'; ?>
+<?php include ROOT_DIR . '/views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row mb-5">
@@ -211,7 +213,7 @@ $page_title = 'Câu hỏi thường gặp';
                 </div>
                 <div class="card-body">
                     <p class="text-muted">Nếu bạn không tìm thấy câu trả lời cho câu hỏi của mình, vui lòng liên hệ với chúng tôi.</p>
-                    <a href="/web_banhoa/views/contact.php" class="btn btn-primary w-100">
+                    <a href="<?php echo APP_URL; ?>/views/contact.php" class="btn btn-primary w-100">
                         <i class="fas fa-envelope"></i> Liên hệ ngay
                     </a>
                 </div>
@@ -231,4 +233,4 @@ $page_title = 'Câu hỏi thường gặp';
     </div>
 </div>
 
-<?php include 'views/layout/footer.php'; ?>
+<?php include ROOT_DIR . '/views/layout/footer.php'; ?>

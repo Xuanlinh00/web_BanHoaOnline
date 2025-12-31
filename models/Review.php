@@ -31,7 +31,7 @@ class Review {
         return $stmt->execute();
     }
 
-    // Get product reviews (approved only)
+    // Nhận đánh giá sản phẩm (chỉ dành cho sản phẩm đã được phê duyệt)
     public function getProductReviews($product_id) {
         $query = "SELECT r.*, u.full_name, u.username
                   FROM " . $this->table . " r
@@ -45,7 +45,7 @@ class Review {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Get pending reviews (admin)
+   // Lấy các đánh giá đang chờ xử lý (quản trị viên)
     public function getPendingReviews($page = 1, $limit = 20) {
         $offset = ($page - 1) * $limit;
         
@@ -63,7 +63,7 @@ class Review {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Approve review
+    // Phê duyệt đánh giá
     public function approveReview($review_id) {
         $query = "UPDATE " . $this->table . " SET status = 'approved' WHERE review_id = ?";
         $stmt = $this->conn->prepare($query);
@@ -71,7 +71,7 @@ class Review {
         return $stmt->execute();
     }
 
-    // Reject review
+    // Từ chối xem xét
     public function rejectReview($review_id) {
         $query = "UPDATE " . $this->table . " SET status = 'rejected' WHERE review_id = ?";
         $stmt = $this->conn->prepare($query);

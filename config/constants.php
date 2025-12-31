@@ -1,11 +1,19 @@
 <?php
 /// Application Constants
 if (!defined('APP_URL')) {
-    // Auto-detect base application URL relative to the web server document root.
-    // This works when the project is placed in a subfolder of the server's docroot.
-    $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-    // If script is in root, use empty string else use the directory path
-    $base = $scriptDir === '/' ? '' : $scriptDir;
+    // Auto-detect base application URL - always point to project root
+    $scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+    
+    // Find the position of 'web_banhoa' in the path
+    if (strpos($scriptName, '/web_banhoa/') !== false) {
+        // Extract everything up to and including 'web_banhoa'
+        $base = substr($scriptName, 0, strpos($scriptName, '/web_banhoa/') + strlen('/web_banhoa'));
+    } else {
+        // Fallback: use document root approach
+        $scriptDir = dirname($scriptName);
+        $base = $scriptDir === '/' ? '' : $scriptDir;
+    }
+    
     define('APP_URL', $base);
 }
 if (!defined('APP_NAME')) {

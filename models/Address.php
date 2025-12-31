@@ -7,7 +7,7 @@ class Address {
         $this->conn = $db;
     }
 
-    // Get user addresses
+    // Lấy địa chỉ người dùng
     public function getUserAddresses($user_id) {
         $query = "SELECT * FROM " . $this->table . " WHERE user_id = ? ORDER BY is_default DESC";
         $stmt = $this->conn->prepare($query);
@@ -25,7 +25,8 @@ class Address {
         return $stmt->get_result()->fetch_assoc();
     }
 
-    // Add address
+    
+// Thêm địa chỉ
     public function addAddress($user_id, $data) {
         $query = "INSERT INTO " . $this->table . " 
                   (user_id, recipient_name, recipient_phone, address_line, ward, district, city, is_default)

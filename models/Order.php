@@ -7,7 +7,7 @@ class Order {
         $this->conn = $db;
     }
 
-    // Create order from cart
+    // Tạo đơn hàng từ giỏ hàng
     public function createOrder($user_id, $data) {
         $order_code = 'ORD' . date('YmdHis') . rand(1000, 9999);
         
@@ -29,11 +29,7 @@ class Order {
         $total = $data['subtotal'] + $shipping_fee - $discount_amount;
 
         $stmt->bind_param(
-<<<<<<< HEAD
-            "issssisssssdddiiss",
-=======
             "isssiddddsssssssiis",
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
             $user_id,
             $order_code,
             $data['delivery_date'],
@@ -62,7 +58,7 @@ class Order {
         }
     }
 
-    // Add items to order
+    // Thêm mặt hàng vào đơn hàng
     public function addOrderItems($order_id, $items) {
         $query = "INSERT INTO order_items 
                   (order_id, product_id, product_name, product_price, quantity, subtotal)
@@ -103,7 +99,7 @@ class Order {
         return $stmt->get_result()->fetch_assoc();
     }
 
-    // Get user orders
+    // Nhận đơn đặt hàng của người dùng
     public function getUserOrders($user_id, $page = 1, $limit = 10) {
         $offset = ($page - 1) * $limit;
         
@@ -118,7 +114,7 @@ class Order {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Get all orders (admin)
+    // Lấy tất cả đơn hàng (quản trị viên)
     public function getAllOrders($page = 1, $limit = 20) {
         $offset = ($page - 1) * $limit;
         
@@ -134,7 +130,7 @@ class Order {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Update order status
+    // Cập nhật trạng thái đơn hàng
     public function updateOrderStatus($order_id, $status) {
         $query = "UPDATE " . $this->table . " SET status = ? WHERE order_id = ?";
         $stmt = $this->conn->prepare($query);

@@ -1,35 +1,38 @@
 <?php
-<<<<<<< HEAD
-require_once __DIR__ . '/../config/constants.php';
-require_once __DIR__ . '/../config/session.php';
+// ============================================
+// FILE: admin/orders.php - QUẢN LÝ ĐƠN HÀNG
+// ============================================
+
+// 1. IMPORT CÁC FILE CẤU HÌNH
+require_once __DIR__ . '/../config/constants.php';  // Hằng số (APP_URL, ORDER_PENDING, v.v.)
+require_once __DIR__ . '/../config/session.php';    // Quản lý session
 
 $page_title = 'Quản lý đơn hàng';
 
-// Require admin
+// 2. KIỂM TRA QUYỀN ADMIN
+// Nếu không phải admin, sẽ redirect về trang chủ
 requireAdmin();
 
+// 3. KẾT NỐI DATABASE
 $conn = require __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/Order.php';
-=======
-require_once 'config/constants.php';
-require_once 'config/session.php';
-requireAdmin();
 
-$page_title = 'Quản lý đơn hàng';
-$conn = require 'config/database.php';
-require_once 'models/Order.php';
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
-
+// 4. KHỞI TẠO MODEL ORDER
 $order_model = new Order($conn);
 
-$message = '';
-$error = '';
+// 5. BIẾN LƯU THÔNG BÁO
+$message = '';  // Thông báo thành công
+$error = '';    // Thông báo lỗi
 
-// Handle status update
+// ============================================
+// XỬ LÝ CẬP NHẬT TRẠNG THÁI ĐƠN HÀNG
+// ============================================
+// Khi admin chọn trạng thái mới từ dropdown
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
-    $order_id = (int)$_POST['order_id'];
-    $new_status = $_POST['status'];
+    $order_id = (int)$_POST['order_id'];           // Lấy ID đơn hàng
+    $new_status = $_POST['status'];                // Lấy trạng thái mới
     
+    // Gọi hàm cập nhật trạng thái từ model
     if ($order_model->updateOrderStatus($order_id, $new_status)) {
         $message = 'Cập nhật trạng thái đơn hàng thành công!';
     } else {
@@ -37,14 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     }
 }
 
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$orders = $order_model->getAllOrders($page, 20);
+// ============================================
+// LẤY DANH SÁCH ĐƠN HÀNG (CÓ PHÂN TRANG)
+// ============================================
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;  // Trang hiện tại (mặc định trang 1)
+$orders = $order_model->getAllOrders($page, 20);        // Lấy 20 đơn hàng mỗi trang
 ?>
-<<<<<<< HEAD
 <?php include __DIR__ . '/../views/layout/header.php'; ?>
-=======
-<?php include 'views/layout/header.php'; ?>
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
 
 <div class="container-fluid">
     <div class="row">
@@ -152,8 +154,4 @@ $orders = $order_model->getAllOrders($page, 20);
     </div>
 </div>
 
-<<<<<<< HEAD
 <?php include __DIR__ . '/../views/layout/footer.php'; ?>
-=======
-<?php include 'views/layout/footer.php'; ?>
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329

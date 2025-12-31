@@ -1,11 +1,13 @@
 <?php
-require_once 'config/constants.php';
-require_once 'config/session.php';
+define('ROOT_DIR', dirname(dirname(__DIR__)));
+
+require_once ROOT_DIR . '/config/constants.php';
+require_once ROOT_DIR . '/config/session.php';
 requireLogin();
 
 $page_title = 'Xác nhận đơn hàng';
-$conn = require 'config/database.php';
-require_once 'models/Order.php';
+$conn = require ROOT_DIR . '/config/database.php';
+require_once ROOT_DIR . '/models/Order.php';
 
 if (!isset($_GET['order_id'])) {
     header('Location: /web_banhoa/');
@@ -27,7 +29,7 @@ $stmt->bind_param("i", $order['order_id']);
 $stmt->execute();
 $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 ?>
-<?php include 'views/layout/header.php'; ?>
+<?php include ROOT_DIR . '/views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -120,10 +122,10 @@ $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             </div>
 
             <div class="mt-4">
-                <a href="/web_banhoa/views/user/orders.php" class="btn btn-primary">
+                <a href="<?php echo APP_URL; ?>/views/user/orders.php" class="btn btn-primary">
                     Xem đơn hàng của tôi
                 </a>
-                <a href="/web_banhoa/views/products/index.php" class="btn btn-outline-primary">
+                <a href="<?php echo APP_URL; ?>/views/products/index.php" class="btn btn-outline-primary">
                     Tiếp tục mua sắm
                 </a>
             </div>
@@ -131,4 +133,4 @@ $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     </div>
 </div>
 
-<?php include 'views/layout/footer.php'; ?>
+<?php include ROOT_DIR . '/views/layout/footer.php'; ?>

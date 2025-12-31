@@ -7,7 +7,7 @@ class Category {
         $this->conn = $db;
     }
 
-    // Get all active categories
+    // Lấy tất cả các danh mục đang hoạt động
     public function getAllCategories() {
         $query = "SELECT * FROM " . $this->table . " WHERE status = 'active' ORDER BY name ASC";
         $result = $this->conn->query($query);

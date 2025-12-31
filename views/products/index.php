@@ -1,11 +1,12 @@
 <?php
-require_once 'config/constants.php';
-require_once 'config/session.php';
+define('ROOT_DIR', dirname(dirname(__DIR__)));
+require_once ROOT_DIR . '/config/constants.php';
+require_once ROOT_DIR . '/config/session.php';
 
 $page_title = 'Sản phẩm';
-$conn = require 'config/database.php';
-require_once 'models/Product.php';
-require_once 'models/Category.php';
+$conn = require ROOT_DIR . '/config/database.php';
+require_once ROOT_DIR . '/models/Product.php';
+require_once ROOT_DIR . '/models/Category.php';
 
 $product = new Product($conn);
 $category = new Category($conn);
@@ -27,7 +28,7 @@ $categories = $category->getAllCategories();
 $total_products = $product->getTotalProducts();
 $total_pages = ceil($total_products / ITEMS_PER_PAGE);
 ?>
-<?php include 'views/layout/header.php'; ?>
+<?php include ROOT_DIR . '/views/layout/header.php'; ?>
 
 <div class="container">
     <div class="row">
@@ -35,21 +36,13 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
         <div class="col-md-3">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title fw-bold" style="color: var(--primary-color);">🎀 Danh mục</h5>
+                    <h5 class="card-title gradient-text flower-decoration">Danh mục</h5>
                     <div class="list-group">
-<<<<<<< HEAD
-                        <a href="<?php echo APP_URL; ?>/products.php" class="list-group-item list-group-item-action <?php echo !$category_id ? 'active' : ''; ?>">
+                        <a href="<?php echo APP_URL; ?>/views/products/index.php" class="list-group-item list-group-item-action <?php echo !$category_id ? 'active' : ''; ?>">
                             Tất cả
                         </a>
                         <?php foreach ($categories as $cat): ?>
-                            <a href="<?php echo APP_URL; ?>/products.php?category=<?php echo $cat['category_id']; ?>" 
-=======
-                        <a href="/web_banhoa/views/products/index.php" class="list-group-item list-group-item-action <?php echo !$category_id ? 'active' : ''; ?>">
-                            Tất cả
-                        </a>
-                        <?php foreach ($categories as $cat): ?>
-                            <a href="/web_banhoa/views/products/index.php?category=<?php echo $cat['category_id']; ?>" 
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
+                            <a href="<?php echo APP_URL; ?>/views/products/index.php?category=<?php echo $cat['category_id']; ?>" 
                                class="list-group-item list-group-item-action <?php echo $category_id == $cat['category_id'] ? 'active' : ''; ?>">
                                 <?php echo $cat['name']; ?>
                             </a>
@@ -60,7 +53,7 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title fw-bold" style="color: var(--primary-color);">🔍 Tìm kiếm</h5>
+                    <h5 class="card-title gradient-text rose-decoration">Tìm kiếm</h5>
                     <form method="GET">
                         <div class="input-group">
                             <input type="text" class="form-control" name="search" placeholder="Tìm hoa..." value="<?php echo htmlspecialchars($search); ?>">
@@ -75,15 +68,15 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
 
         <!-- Products -->
         <div class="col-md-9">
-            <h2 class="mb-4 fw-bold" style="color: var(--primary-color);">
+            <h2 class="mb-4 gradient-text">
                 <?php 
                 if ($search) {
-                    echo '🔍 Kết quả tìm kiếm: ' . htmlspecialchars($search);
+                    echo 'Kết quả tìm kiếm: ' . htmlspecialchars($search);
                 } elseif ($category_id) {
                     $cat = $category->getCategoryById($category_id);
-                    echo '🎀 ' . $cat['name'];
+                    echo $cat['name'];
                 } else {
-                    echo '🌸 Tất cả sản phẩm';
+                    echo 'Tất cả sản phẩm';
                 }
                 ?>
             </h2>
@@ -94,24 +87,44 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
                 <div class="row g-4">
                     <?php foreach ($products as $prod): ?>
                         <div class="col-md-4">
-                            <div class="card h-100 shadow-sm">
-                                <img src="<?php echo $prod['image_url'] ?? APP_URL . '/assets/images/placeholder.jpg'; ?>" 
-                                     class="card-img-top" alt="<?php echo $prod['name']; ?>" style="height: 250px; object-fit: cover;">
+                            <div class="card product-card h-100">
+                                <?php
+                                // Get product image
+                                $product_image = '';
+                                if (isset($prod['product_id'])) {
+                                    $img_query = "SELECT image_url FROM product_images WHERE product_id = ? ORDER BY sort_order ASC LIMIT 1";
+                                    $img_stmt = $conn->prepare($img_query);
+                                    $img_stmt->bind_param("i", $prod['product_id']);
+                                    $img_stmt->execute();
+                                    $img_result = $img_stmt->get_result();
+                                    
+                                    if ($img_result->num_rows > 0) {
+                                        $img_row = $img_result->fetch_assoc();
+                                        $product_image = $img_row['image_url'];
+                                    } elseif (!empty($prod['image_url'])) {
+                                        $product_image = $prod['image_url'];
+                                    }
+                                }
+                                
+                                if (!empty($product_image)) {
+                                    echo "<img src='$product_image' class='card-img-top product-image' alt='{$prod['name']}' style='height: 250px; object-fit: cover;' onerror=\"this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div class=\\'card-img-top d-flex align-items-center justify-content-center bg-light\\' style=\\'height: 250px;\\'><i class=\\'fas fa-image fa-3x text-muted\\'></i></div>';\">";
+                                } else {
+                                    echo "<div class='card-img-top product-image d-flex align-items-center justify-content-center bg-light' style='height: 250px;'>";
+                                    echo "<i class='fas fa-image fa-3x text-muted'></i>";
+                                    echo "</div>";
+                                }
+                                ?>
                                 <div class="card-body">
-                                    <h5 class="card-title"><?php echo $prod['name']; ?></h5>
+                                    <h5 class="card-title text-primary"><?php echo $prod['name']; ?></h5>
                                     <p class="card-text text-muted small"><?php echo substr($prod['description'], 0, 100) . '...'; ?></p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span class="h5 mb-0" style="color: var(--primary-color);"><?php echo number_format($prod['price'], 0, ',', '.'); ?>đ</span>
+                                        <span class="h5 mb-0 price-text"><?php echo number_format($prod['price'], 0, ',', '.'); ?>đ</span>
                                         <small class="text-muted">Đã bán: <?php echo $prod['sold_count']; ?></small>
                                     </div>
                                 </div>
-                                <div class="card-footer bg-white">
-<<<<<<< HEAD
-                                    <a href="<?php echo APP_URL; ?>/product-detail.php?id=<?php echo $prod['product_id']; ?>" 
-=======
-                                    <a href="/web_banhoa/views/products/detail.php?id=<?php echo $prod['product_id']; ?>" 
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
-                                       class="btn btn-primary btn-sm w-100">
+                                <div class="card-footer bg-transparent border-0">
+                                    <a href="<?php echo APP_URL; ?>/views/products/detail.php?id=<?php echo $prod['product_id']; ?>" 
+                                       class="btn btn-primary btn-sm w-100 rounded-pill">
                                         <i class="fas fa-eye"></i> Xem chi tiết
                                     </a>
                                 </div>
@@ -126,11 +139,7 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
                         <ul class="pagination justify-content-center">
                             <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                                 <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-<<<<<<< HEAD
-                                    <a class="page-link" href="<?php echo APP_URL; ?>/products.php?page=<?php echo $i; ?><?php echo $category_id ? '&category=' . $category_id : ''; ?><?php echo $search ? '&search=' . urlencode($search) : ''; ?>">
-=======
-                                    <a class="page-link" href="/web_banhoa/views/products/index.php?page=<?php echo $i; ?><?php echo $category_id ? '&category=' . $category_id : ''; ?><?php echo $search ? '&search=' . urlencode($search) : ''; ?>">
->>>>>>> 37c17f0dac4bb260a987b53f0f92d6e4a0c6a329
+                                    <a class="page-link" href="<?php echo APP_URL; ?>/views/products/index.php?page=<?php echo $i; ?><?php echo $category_id ? '&category=' . $category_id : ''; ?><?php echo $search ? '&search=' . urlencode($search) : ''; ?>">
                                         <?php echo $i; ?>
                                     </a>
                                 </li>
@@ -143,4 +152,4 @@ $total_pages = ceil($total_products / ITEMS_PER_PAGE);
     </div>
 </div>
 
-<?php include 'views/layout/footer.php'; ?>
+<?php include ROOT_DIR . '/views/layout/footer.php'; ?>

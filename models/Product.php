@@ -7,7 +7,7 @@ class Product {
         $this->conn = $db;
     }
 
-    // Get all products with pagination
+    // Lấy tất cả sản phẩm có phhaan
     public function getAllProducts($page = 1, $limit = ITEMS_PER_PAGE) {
         $offset = ($page - 1) * $limit;
         
@@ -23,7 +23,7 @@ class Product {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Get total products count
+   // Lấy tổng số lượng sản phẩm
     public function getTotalProducts() {
         $query = "SELECT COUNT(*) as total FROM " . $this->table;
         $result = $this->conn->query($query);
@@ -31,7 +31,7 @@ class Product {
         return $row['total'];
     }
 
-    // Get product by ID with images
+   // Lấy sản phẩm theo ID kèm hình ảnh
     public function getProductById($product_id) {
         $query = "SELECT p.*, c.name as category_name 
                   FROM " . $this->table . " p
@@ -92,7 +92,7 @@ class Product {
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Increment view count
+    // Tăng view count
     public function incrementViewCount($product_id) {
         $query = "UPDATE " . $this->table . " SET view_count = view_count + 1 WHERE product_id = ?";
         $stmt = $this->conn->prepare($query);
@@ -100,7 +100,7 @@ class Product {
         return $stmt->execute();
     }
 
-    // Get related products (same category, excluding current product)
+    // Lấy các sản phẩm liên quan (cùng danh mục, không bao gồm sản phẩm hiện tại)
     public function getRelatedProducts($product_id, $category_id, $limit = 4) {
         $query = "SELECT p.*, c.name as category_name,
                          COALESCE(
